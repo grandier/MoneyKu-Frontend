@@ -1,8 +1,8 @@
-import { View, Text } from "react-native";
-import React from "react";
+import { View, Text, SafeArea, FlatList } from "react-native";
+import { React, useState } from "react";
 import Greeter from "./components/greeter";
 
-export default function HomeScreen() {
+export default function Home() {
   return (
     <View>
       <Greeter

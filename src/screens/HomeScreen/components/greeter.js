@@ -5,7 +5,9 @@ export default function Greeter({ user }) {
   return (
     <View style={styles.container}>
       <View>
-        <Text>Good Morning, {user.name}</Text>
+        <Text style={{ fontFamily: "InterBold" }}>
+          Good Morning, {user.name}
+        </Text>
         <Text>Welcome back to MoneyKu!</Text>
       </View>
       <Image style={styles.image} source={{ uri: user.img }} />

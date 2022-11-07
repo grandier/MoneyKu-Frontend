@@ -1,22 +1,59 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
-import HomeScreen from "./src/screens/HomeScreen";
+import { createStackNavigator } from "@react-navigation/stack";
+import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
+import * as Font from "expo-font";
+import Home from "./src/screens/HomeScreen";
+import React from "react";
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      {/* <Text>Open up App.js to start working on your app!</Text> */}
-      <HomeScreen />
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+const Stack = createStackNavigator();
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+const theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: "transparent",
   },
-});
+};
+
+let customFonts = {
+  InterBold: require("./assets/fonts/Inter-Bold.ttf"),
+  InterSemiBold: require("./assets/fonts/Inter-SemiBold.ttf"),
+  InterMedium: require("./assets/fonts/Inter-Medium.ttf"),
+  InterRegular: require("./assets/fonts/Inter-Regular.ttf"),
+  InterLight: require("./assets/fonts/Inter-Light.ttf"),
+};
+
+export default class App extends React.Component {
+  state = {
+    fontsLoaded: false,
+  };
+
+  async _loadFontsAsync() {
+    await Font.loadAsync(customFonts);
+    this.setState({ fontsLoaded: true });
+  }
+
+  componentDidMount() {
+    this._loadFontsAsync();
+  }
+
+  render() {
+    if (!this.state.fontsLoaded) {
+      return null;
+    }
+
+    return (
+      // code below act as router
+      <NavigationContainer theme={theme}>
+        <Stack.Navigator
+          screenOptions={{ headerShown: false }}
+          initialRouteName="Home"
+        >
+          <Stack.Screen name="Home" component={Home} />
+          {/* <Stack.Screen name="Details" component={Details}/> */}
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
+  }
+}
