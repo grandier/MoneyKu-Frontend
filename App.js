@@ -2,6 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
+import OnboardingScreen from "./src/screens/OnboardingScreen/OnboardingScreen";
 import * as Font from "expo-font";
 import Home from "./src/screens/HomeScreen";
 import React from "react";
@@ -50,8 +51,8 @@ export default class App extends React.Component {
           screenOptions={{ headerShown: false }}
           initialRouteName="Home"
         >
-          <Stack.Screen name="Home" component={Home} />
-          {/* <Stack.Screen name="Details" component={Details}/> */}
+          <Stack.Screen name="Onboarding" component={OnboardingScreen} />
+          {/* <Stack.Screen name="Login" component={LoginScreen} /> */}
         </Stack.Navigator>
       </NavigationContainer>
     );
