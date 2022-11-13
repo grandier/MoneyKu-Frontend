@@ -4,8 +4,11 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import OnboardingScreen from "./src/screens/OnboardingScreen/OnboardingScreen";
 import * as Font from "expo-font";
-import Home from "./src/screens/HomeScreen";
+import Home from "./src/screens/HomeScreen/Home";
 import React from "react";
+import SignInScreen from "./src/screens/Registration/SignInScreen";
+import SignUpScreen from "./src/screens/Registration/SignUpScreen";
+import Welcome from "./src/screens/Welcome";
 
 const Stack = createStackNavigator();
 
@@ -51,8 +54,11 @@ export default class App extends React.Component {
           screenOptions={{ headerShown: false }}
           initialRouteName="Home"
         >
-          <Stack.Screen name="Onboarding" component={OnboardingScreen} />
-          {/* <Stack.Screen name="Login" component={LoginScreen} /> */}
+          {/* <Stack.Screen name="Onboarding" component={OnboardingScreen} /> */}
+          {/* <Stack.Screen name="Signin" component={SignInScreen} /> */}
+          <Stack.Screen name="Home" component={Home} />
+          {/* <Stack.Screen name="Welcome" component={Welcome} /> */}
+          {/* <Stack.Screen name="Signup" component={SignUpScreen} /> */}
         </Stack.Navigator>
       </NavigationContainer>
     );
