@@ -57,6 +57,7 @@ export default class App extends React.Component {
           {/* <Stack.Screen name="Onboarding" component={OnboardingScreen} /> */}
           {/* <Stack.Screen name="Signin" component={SignInScreen} /> */}
           <Stack.Screen name="Home" component={Home} />
+          {/* <Stack.Screen name="Header" component={Header} /> */}
           {/* <Stack.Screen name="Welcome" component={Welcome} /> */}
           {/* <Stack.Screen name="Signup" component={SignUpScreen} /> */}
         </Stack.Navigator>
