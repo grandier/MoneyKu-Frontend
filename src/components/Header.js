@@ -8,7 +8,7 @@ const Header = () => {
   return (
     <>
       <StatusBar bg="#3700B3" barStyle="light-content" />
-      <Box safeAreaTop bg="violet.600" />
+      <Box safeAreaTop />
       <HStack
         bg="violet.800"
         px="1"

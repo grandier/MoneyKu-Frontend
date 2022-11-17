@@ -8,26 +8,27 @@ const styles = StyleSheet.create({
     flex: 1,
     // paddingTop: values.verticalPadding + 40,
     backgroundColor: colors.background,
-    marginTop: StatusBar.currentHeight,
+    // marginTop: StatusBar.currentHeight,
   },
   horizontalPaddingView: {
     paddingHorizontal: values.horizontalPadding,
   },
-  parent: {
-    height: "80%",
-    width: "100%",
-    transform: [{ scaleX: 2 }],
-    borderBottomStartRadius: 200,
-    borderBottomEndRadius: 200,
-    overflow: "hidden",
-  },
-  child: {
-    flex: 1,
-    transform: [{ scaleX: 0.5 }],
 
-    backgroundColor: "#7B61FF",
+  linearGradient: {
     alignItems: "center",
     justifyContent: "center",
+    height: 300,
+    borderBottomLeftRadius: 36,
+    borderBottomRightRadius: 36,
+  },
+  image: {
+    width: 50,
+    height: 50,
+    borderRadius: 10,
+    borderWidth: 1,
+    marginRight: 5,
+    borderColor: "white",
+    alignItems: "flex-end",
   },
 });
 export default styles;

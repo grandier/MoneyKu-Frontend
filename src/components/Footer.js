@@ -22,20 +22,17 @@ const Footer = () => {
         maxW="100%"
         alignSelf="center"
       >
-        <HStack
-          bg="white"
-          alignItems="center"
-          safeAreaBottom
-          shadow={6}
-          height={70}
-        >
+        <HStack bg="white" alignItems="center" shadow={6} height={70}>
           {/* wallet icon */}
           <Pressable
             cursor="pointer"
             opacity={selected === 0 ? 1 : 0.5}
             py="3"
             flex={1}
-            onPress={() => setSelected(0)}
+            onPress={() => {
+              setSelected(0);
+              console.log("wallet pressed");
+            }}
           >
             <Center>
               <Icon
@@ -60,7 +57,10 @@ const Footer = () => {
             opacity={selected === 1 ? 1 : 0.5}
             py="2"
             flex={1}
-            onPress={() => setSelected(1)}
+            onPress={() => {
+              setSelected(1);
+              console.log("notification bell pressed");
+            }}
           >
             <Center>
               <Icon
@@ -81,7 +81,10 @@ const Footer = () => {
             opacity={selected === 2 ? 1 : 0.5}
             py="2"
             flex={1}
-            onPress={() => setSelected(2)}
+            onPress={() => {
+              setSelected(2);
+              console.log("user profile pressed");
+            }}
           >
             <Center>
               <Icon

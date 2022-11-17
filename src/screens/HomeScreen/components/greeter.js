@@ -5,12 +5,9 @@ export default function Greeter({ user }) {
   return (
     <View style={styles.container}>
       <View>
-        <Text style={{ fontFamily: "InterBold" }}>
-          Good Morning, {user.name}
-        </Text>
-        <Text>Welcome back to MoneyKu!</Text>
+        <Text style={styles.greeting}>Good Morning</Text>
+        <Text style={styles.name}> {user.name}</Text>
       </View>
-      <Image style={styles.image} source={{ uri: user.img }} />
     </View>
   );
 }
@@ -19,12 +16,22 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     justifyContent: "space-between",
+    borderWidth: 5,
+    marginBottom: 145,
+    width: 200,
   },
-  image: {
-    width: 80,
-    height: 80,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: "white",
+  greeting: {
+    // fontStyle: "italic",
+    // fontFamily: "century-gothic",
+    color: "white",
+    fontSize: 15,
+  },
+  name: {
+    // fontStyle: "italic",
+    // fontFamily: "century-gothic",
+    fontWeight: "800",
+    color: "white",
+    fontSize: 20,
+    marginLeft: 40,
   },
 });
