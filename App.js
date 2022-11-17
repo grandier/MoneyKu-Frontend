@@ -11,6 +11,7 @@ import SignUpScreen from "./src/screens/Registration/SignUpScreen";
 import Welcome from "./src/screens/Welcome";
 import Header from "./src/components/Header";
 import Footer from "./src/components/Footer";
+import AddTransaction from "./src/screens/AddTransaction/AddTransaction";
 
 const Stack = createStackNavigator();
 
@@ -59,6 +60,7 @@ export default class App extends React.Component {
           {/* <Stack.Screen name="Onboarding" component={OnboardingScreen} /> */}
           {/* <Stack.Screen name="Signin" component={SignInScreen} /> */}
           <Stack.Screen name="Home" component={Home} />
+          {/* <Stack.Screen name="AddTransaction" component={AddTransaction} /> */}
           {/* <Stack.Screen name="Footer" component={Footer} /> */}
           {/* <Stack.Screen name="Header" component={Header} /> */}
           {/* <Stack.Screen name="Welcome" component={Welcome} /> */}
