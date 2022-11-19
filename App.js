@@ -14,7 +14,9 @@ import Welcome from "./src/screens/Welcome";
 import Header from "./src/components/Header";
 import Footer from "./src/components/Footer";
 import AddTransaction from "./src/screens/AddTransaction/AddTransaction";
-
+import Wallet from "./src/screens/WalletScreen/Wallet";
+import History from "./src/screens/TransactionHistory/History";
+import UserPage from "./src/screens/UserProfile/UserPage";
 const Stack = createStackNavigator();
 
 const theme = {
@@ -57,16 +59,19 @@ export default class App extends React.Component {
       <NavigationContainer theme={theme}>
         <Stack.Navigator
           screenOptions={{ headerShown: false }}
-          initialRouteName="Home"
+          initialRouteName="Wallet"
         >
           <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="Onboarding" component={OnboardingScreen} />
+          <Stack.Screen name="Signup" component={SignUpScreen} />
           <Stack.Screen name="Signin" component={SignInScreen} />
           <Stack.Screen name="AddTransaction" component={AddTransaction} />
           <Stack.Screen name="Footer" component={Footer} />
           <Stack.Screen name="Header" component={Header} />
           <Stack.Screen name="Welcome" component={Welcome} />
-          <Stack.Screen name="Signup" component={SignUpScreen} />
+          <Stack.Screen name="Wallet" component={Wallet} />
+          <Stack.Screen name="History" component={History} />
+          <Stack.Screen name="UserPage" component={UserPage} />
         </Stack.Navigator>
       </NavigationContainer>
     );

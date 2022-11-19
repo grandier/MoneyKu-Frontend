@@ -44,7 +44,7 @@ export default function Home({ navigation }) {
         <Greeter user={{ name: "Aidan Azkafaro" }} />
       </LinearGradient>
       <TotalBalance />
-      <Footer navigation={navigation} />
+      <Footer navigation={navigation} selected={0} />
     </SafeAreaView>
   );
 }

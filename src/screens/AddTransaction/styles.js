@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
     height: Dimensions.get("window").height * 0.5,
     position: "relative",
     bottom: 0,
+    marginVertical: 20,
   },
   inputForm: {
     width: Dimensions.get("window").width * 0.8,
@@ -34,12 +35,22 @@ const styles = StyleSheet.create({
     position: "relative",
     // max: {Dimension.get("window").width *0.7}
   },
-  searchSection: {
+  inputSection: {
     flex: 0.2,
     flexDirection: "row",
     justifyContent: "center",
-    alignItems: "flex-start",
+    alignItems: "center",
     backgroundColor: "#fff",
+    borderColor: "blue",
+  },
+  radioSection: {
+    flex: 0.1,
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    borderColor: "blue",
+    paddingHorizontal: 85,
   },
   searchIcon: {
     padding: 10,
@@ -51,6 +62,13 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     paddingLeft: 0,
     color: "black",
+  },
+  inputButton: {
+    marginVertical: 10,
+  },
+
+  blankSpace: {
+    flex: 1,
   },
 });
 export default styles;

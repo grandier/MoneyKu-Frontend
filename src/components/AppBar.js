@@ -30,7 +30,7 @@ const AppBar = () => {
             console.log("hamburger pressed");
           }}
         />
-        <Image style={styles.image} />
+        <Image style={styles.image} alt="profile-pic" />
         {/* <HStack>
             <IconButton
               icon={

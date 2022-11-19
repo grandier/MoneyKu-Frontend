@@ -7,12 +7,12 @@ import {
   Ionicons,
   Feather,
 } from "react-native-vector-icons";
+import styles from "./styles";
 
 // icons can be found here:
 // https://oblador.github.io/react-native-vector-icons/
 
-const Footer = ({ navigation }) => {
-  const [selected, setSelected] = React.useState(2);
+const Footer = ({ navigation, selected }) => {
   return (
     <NativeBaseProvider>
       <Box
@@ -22,6 +22,7 @@ const Footer = ({ navigation }) => {
         width="100%"
         maxW="100%"
         alignSelf="center"
+        style={styles.footer}
       >
         <HStack bg="white" alignItems="center" shadow={6} height={70}>
           {/* home icon */}
@@ -31,7 +32,7 @@ const Footer = ({ navigation }) => {
             py="3"
             flex={1}
             onPress={() => {
-              setSelected(0);
+              // setSelected(0);
               console.log("home pressed");
               navigation.navigate("Home");
             }}
@@ -58,9 +59,9 @@ const Footer = ({ navigation }) => {
             py="2"
             flex={1}
             onPress={() => {
-              setSelected(1);
+              // setSelected(1);
               console.log("notification bell pressed");
-              // navigation.navigate("AddTransaction");
+              navigation.navigate("Wallet");
             }}
           >
             <Center>
@@ -88,7 +89,7 @@ const Footer = ({ navigation }) => {
             py="2"
             flex={1}
             onPress={() => {
-              setSelected(2);
+              // setSelected(2);
               console.log("add icon pressed");
               navigation.navigate("AddTransaction");
             }}
@@ -98,7 +99,7 @@ const Footer = ({ navigation }) => {
                 mb="1"
                 as={<Ionicons name={"add-circle"} />}
                 // color={selected === 2 ? "#2B47FC" : "#3A3A3A"}
-                color={"#2B47FC"}
+                color={"#B52FF8"}
                 size="3xl"
               />
               {/* <Text color="white" fontSize="12">
@@ -106,15 +107,16 @@ const Footer = ({ navigation }) => {
               </Text> */}
             </Center>
           </Pressable>
-          {/* Transfer icon */}
+          {/* History transaction icon */}
           <Pressable
             cursor="pointer"
             opacity={selected === 3 ? 1 : 0.5}
             py="2"
             flex={1}
             onPress={() => {
-              setSelected(3);
+              // setSelected(3);
               console.log("Transfer icon pressed");
+              navigation.navigate("History");
             }}
           >
             <Center>
@@ -136,8 +138,9 @@ const Footer = ({ navigation }) => {
             py="2"
             flex={1}
             onPress={() => {
-              setSelected(4);
+              // setSelected(4);
               console.log("user profile pressed");
+              navigation.navigate("UserPage");
             }}
           >
             <Center>

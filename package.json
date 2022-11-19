@@ -10,6 +10,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@blump-tech/native-base-select": "^0.2.0",
     "@react-navigation/native": "^6.0.8",
     "@react-navigation/native-stack": "^6.9.1",
     "@react-navigation/stack": "^6.1.1",
@@ -31,6 +32,7 @@
     "react-native-gesture-handler": "~2.1.0",
     "react-native-linear-gradient": "^2.6.2",
     "react-native-onboarding-swiper": "^1.2.0",
+    "react-native-paper": "^4.12.5",
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.10.1",
     "react-native-select-dropdown": "^3.0.3",

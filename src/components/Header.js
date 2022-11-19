@@ -1,61 +1,21 @@
-import { Text, Box, HStack, IconButton, Icon } from "react-native";
+import { Text, Box, HStack, IconButton, Icon, StyleSheet } from "react-native";
 import React from "react";
+import styles from "./styles";
 import { StatusBar } from "expo-status-bar";
 import { MaterialIcons } from "react-native-vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 
-// masih gabisa dipake
-const Header = () => {
+const Header = ({ title }) => {
   return (
     <>
-      <StatusBar bg="#3700B3" barStyle="light-content" />
-      <Box safeAreaTop />
-      <HStack
-        bg="violet.800"
-        px="1"
-        py="3"
-        justifyContent="space-between"
-        alignItems="center"
-        w="100%"
-        maxW="350"
+      <LinearGradient
+        colors={["#7B61FF", "#30A8DF"]}
+        style={styles.linearGradient}
       >
-        <HStack alignItems="center">
-          <IconButton
-            icon={
-              <Icon size="sm" as={MaterialIcons} name="menu" color="white" />
-            }
-          />
-          <Text color="white" fontSize="20" fontWeight="bold">
-            Home
-          </Text>
-        </HStack>
-        <HStack>
-          <IconButton
-            icon={
-              <Icon
-                as={MaterialIcons}
-                name="favorite"
-                size="sm"
-                color="white"
-              />
-            }
-          />
-          <IconButton
-            icon={
-              <Icon as={MaterialIcons} name="search" size="sm" color="white" />
-            }
-          />
-          <IconButton
-            icon={
-              <Icon
-                as={MaterialIcons}
-                name="more-vert"
-                size="sm"
-                color="white"
-              />
-            }
-          />
-        </HStack>
-      </HStack>
+        <Text style={{ fontWeight: "bold", fontSize: 15, color: "#fff" }}>
+          {title}
+        </Text>
+      </LinearGradient>
     </>
   );
 };
