@@ -2,6 +2,8 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
 import OnboardingScreen from "./src/screens/OnboardingScreen/OnboardingScreen";
 import * as Font from "expo-font";
 import Home from "./src/screens/HomeScreen/Home";
@@ -57,14 +59,14 @@ export default class App extends React.Component {
           screenOptions={{ headerShown: false }}
           initialRouteName="Home"
         >
-          {/* <Stack.Screen name="Onboarding" component={OnboardingScreen} /> */}
-          {/* <Stack.Screen name="Signin" component={SignInScreen} /> */}
           <Stack.Screen name="Home" component={Home} />
-          {/* <Stack.Screen name="AddTransaction" component={AddTransaction} /> */}
-          {/* <Stack.Screen name="Footer" component={Footer} /> */}
-          {/* <Stack.Screen name="Header" component={Header} /> */}
-          {/* <Stack.Screen name="Welcome" component={Welcome} /> */}
-          {/* <Stack.Screen name="Signup" component={SignUpScreen} /> */}
+          <Stack.Screen name="Onboarding" component={OnboardingScreen} />
+          <Stack.Screen name="Signin" component={SignInScreen} />
+          <Stack.Screen name="AddTransaction" component={AddTransaction} />
+          <Stack.Screen name="Footer" component={Footer} />
+          <Stack.Screen name="Header" component={Header} />
+          <Stack.Screen name="Welcome" component={Welcome} />
+          <Stack.Screen name="Signup" component={SignUpScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     );

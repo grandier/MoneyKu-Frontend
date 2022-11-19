@@ -11,7 +11,7 @@ import {
 // icons can be found here:
 // https://oblador.github.io/react-native-vector-icons/
 
-const Footer = () => {
+const Footer = ({ navigation }) => {
   const [selected, setSelected] = React.useState(2);
   return (
     <NativeBaseProvider>
@@ -33,6 +33,7 @@ const Footer = () => {
             onPress={() => {
               setSelected(0);
               console.log("home pressed");
+              navigation.navigate("Home");
             }}
           >
             <Center>
@@ -59,6 +60,7 @@ const Footer = () => {
             onPress={() => {
               setSelected(1);
               console.log("notification bell pressed");
+              // navigation.navigate("AddTransaction");
             }}
           >
             <Center>
@@ -88,6 +90,7 @@ const Footer = () => {
             onPress={() => {
               setSelected(2);
               console.log("add icon pressed");
+              navigation.navigate("AddTransaction");
             }}
           >
             <Center>

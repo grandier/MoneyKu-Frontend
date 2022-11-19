@@ -30,7 +30,7 @@ import { Header } from "../../components/Header";
 import { LinearGradient } from "expo-linear-gradient";
 import TotalBalance from "./components/TotalBalance";
 import AppBar from "../../components/AppBar";
-export default function Home() {
+export default function Home({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar translucent backgroundColor="transparent" />
@@ -44,7 +44,7 @@ export default function Home() {
         <Greeter user={{ name: "Aidan Azkafaro" }} />
       </LinearGradient>
       <TotalBalance />
-      <Footer />
+      <Footer navigation={navigation} />
     </SafeAreaView>
   );
 }

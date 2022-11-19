@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@react-navigation/native": "^6.0.8",
+    "@react-navigation/native-stack": "^6.9.1",
     "@react-navigation/stack": "^6.1.1",
     "expo": "~44.0.0",
     "expo-font": "~10.0.4",
@@ -31,6 +32,9 @@
     "react-native-linear-gradient": "^2.6.2",
     "react-native-onboarding-swiper": "^1.2.0",
     "react-native-safe-area-context": "3.3.2",
+    "react-native-screens": "~3.10.1",
+    "react-native-select-dropdown": "^3.0.3",
+    "react-native-simple-radio-button": "^2.7.4",
     "react-native-splash-screen": "^3.3.0",
     "react-native-svg": "9.13.3",
     "react-native-vector-icons": "^9.2.0"
