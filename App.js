@@ -15,8 +15,11 @@ import Header from "./src/components/Header";
 import Footer from "./src/components/Footer";
 import AddTransaction from "./src/screens/AddTransaction/AddTransaction";
 import Wallet from "./src/screens/WalletScreen/Wallet";
-import History from "./src/screens/TransactionHistory/History";
 import UserPage from "./src/screens/UserProfile/UserPage";
+import TransactionHistory from "./src/screens/TransactionHistory/TransactionHistory";
+import DatePicker from "./src/screens/TransactionHistory/components/FilterForm";
+import FilteredList from "./src/screens/TransactionHistory/components/FilteredList";
+
 const Stack = createStackNavigator();
 
 const theme = {
@@ -59,7 +62,7 @@ export default class App extends React.Component {
       <NavigationContainer theme={theme}>
         <Stack.Navigator
           screenOptions={{ headerShown: false }}
-          initialRouteName="Wallet"
+          initialRouteName="TransactionHistory"
         >
           <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="Onboarding" component={OnboardingScreen} />
@@ -70,7 +73,13 @@ export default class App extends React.Component {
           <Stack.Screen name="Header" component={Header} />
           <Stack.Screen name="Welcome" component={Welcome} />
           <Stack.Screen name="Wallet" component={Wallet} />
-          <Stack.Screen name="History" component={History} />
+          <Stack.Screen name="DatePicker" component={DatePicker} />
+          <Stack.Screen name="FilteredList" component={FilteredList} />
+
+          <Stack.Screen
+            name="TransactionHistory"
+            component={TransactionHistory}
+          />
           <Stack.Screen name="UserPage" component={UserPage} />
         </Stack.Navigator>
       </NavigationContainer>

@@ -20,12 +20,4 @@ const Header = ({ title }) => {
   );
 };
 
-// function Example() {
-//   return (
-//     <Center>
-//       <AppBar />
-//     </Center>
-//   );
-// }
-
 export default Header;

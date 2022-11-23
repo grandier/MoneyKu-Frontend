@@ -24,7 +24,7 @@ import {
 } from "native-base";
 
 const AddTransaction = ({ navigation }) => {
-  const transactionData = {
+  const transactionDataFormat = {
     description: "",
     amount: 0,
     wallet: "",
@@ -32,7 +32,7 @@ const AddTransaction = ({ navigation }) => {
     transactionType: "",
   };
 
-  const [transaction, setTransaction] = React.useState(transactionData);
+  const [transaction, setTransaction] = React.useState(transactionDataFormat);
 
   // for radio buttons
   const [checked, setChecked] = React.useState("first");
