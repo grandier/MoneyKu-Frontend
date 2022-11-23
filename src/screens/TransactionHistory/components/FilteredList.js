@@ -33,15 +33,38 @@ const FilteredList = ({ navigation }) => {
           <IncomeExpense />
         </View>
         <Box style={styles.filteredList}>
-          <Text fontSize="xl" mt="3" pb="3">
-            Filtered Result
-          </Text>
-
           <FlatList
             style={{}}
             data={resultData}
             scrollEnabled={true}
             ListEmptyComponent={myListEmpty}
+            ListHeaderComponent={() => (
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Text fontSize="xl">Filtered Result</Text>
+                <Button
+                  style={{ width: 150, alignSelf: "flex-end" }}
+                  onPress={() => {
+                    console.log("Click");
+                  }}
+                >
+                  Change Filter
+                </Button>
+              </View>
+            )} // Add the button component here!
+            // ListFooterComponent={() => (
+            //   <Button
+            //     onPress={() => {
+            //       console.log("Click");
+            //     }}
+            //   >
+            //     Click Me
+            //   </Button>
+            // )} // Add the button component here!
             renderItem={({ item }) => (
               <Box
                 borderBottomWidth="1"
@@ -112,7 +135,7 @@ const FilteredList = ({ navigation }) => {
         </Box>
         <View
           style={{
-            width: 200,
+            width: Dimensions.get("window").width,
             borderWidth: 2,
             justifyContent: "center",
             alignItems: "center",
@@ -122,6 +145,7 @@ const FilteredList = ({ navigation }) => {
             style={{
               height: Dimensions.get("window").height * 0.05,
               position: "relative",
+              zIndex: 1,
             }}
             onPress={() => console.log("im pressed")}
           >

@@ -5,16 +5,21 @@ import {
   Text,
   Input,
   Stack,
+  HStack,
+  VStack,
   FormControl,
   Select,
+  Spacer,
   CheckIcon,
+  Box,
+  FlatList,
 } from "native-base";
 import styles from "../styles";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Dimensions } from "react-native";
 import { Ionicons } from "react-native-vector-icons";
 import resultData from "../resultData";
-import FilteredList from "./FilteredList";
+import IncomeExpense from "./IncomeExpense";
 
 const FilterForm = ({ navigation }) => {
   const dateToday = new Date();
@@ -67,11 +72,29 @@ const FilterForm = ({ navigation }) => {
     hideDatePicker();
   }
 
+  const myListEmpty = () => {
+    return (
+      <View style={{ alignItems: "center" }}>
+        <Text style={styles.item}>No data found</Text>
+      </View>
+    );
+  };
+
   return (
     <View style={styles.container}>
       {showFilter ? (
         <View style={styles.datePickerWrapper}>
-          <Text>Set filter</Text>
+          <Text
+            style={{
+              marginBottom: 25,
+              alignSelf: "flex-start",
+              paddingHorizontal: 40,
+            }}
+            fontSize="xl"
+            fontWeight="bold"
+          >
+            Set filter
+          </Text>
           <View style={styles.datePicker}>
             <FormControl>
               <Stack space={2}>
@@ -190,7 +213,110 @@ const FilterForm = ({ navigation }) => {
           />
         </View>
       ) : (
-        <FilteredList navigation={navigation} resultData={resultData} />
+        <View>
+          <View
+            style={{
+              minHeight: 100,
+              marginTop: 20,
+              marginVertical: 10,
+            }}
+          >
+            <IncomeExpense />
+          </View>
+          <Box style={styles.filteredList}>
+            <FlatList
+              style={{}}
+              data={resultData}
+              scrollEnabled={true}
+              ListEmptyComponent={myListEmpty}
+              ListHeaderComponent={() => (
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Text fontSize="xl">Filtered Result</Text>
+                  <Button
+                    style={{ width: 150, alignSelf: "flex-end" }}
+                    onPress={() => {
+                      console.log("Click");
+                      setShowFilter(!showFilter);
+                    }}
+                  >
+                    Change Filter
+                  </Button>
+                </View>
+              )}
+              renderItem={({ item }) => (
+                <Box
+                  borderBottomWidth="1"
+                  _dark={{
+                    borderColor: "muted.50",
+                  }}
+                  borderColor="muted.800"
+                  pl={["0", "4"]}
+                  pr={["0", "5"]}
+                  py="2"
+                >
+                  <HStack space={[2, 3]} justifyContent="space-between">
+                    <VStack>
+                      <Text
+                        _dark={{
+                          color: "warmGray.50",
+                        }}
+                        color="coolGray.800"
+                        bold
+                      >
+                        {item.productName}
+                      </Text>
+                      <Text
+                        color="coolGray.600"
+                        _dark={{
+                          color: "warmGray.200",
+                        }}
+                      >
+                        {item.price}
+                      </Text>
+                    </VStack>
+                    <Spacer />
+                    <Text
+                      fontSize="xs"
+                      _dark={{
+                        color: "warmGray.50",
+                      }}
+                      color="coolGray.800"
+                      alignSelf="flex-start"
+                    >
+                      {item.transactionType}
+                    </Text>
+                    <Text
+                      fontSize="xs"
+                      _dark={{
+                        color: "warmGray.50",
+                      }}
+                      color="coolGray.800"
+                      alignSelf="flex-start"
+                    >
+                      {item.wallet}
+                    </Text>
+                    <Text
+                      fontSize="xs"
+                      _dark={{
+                        color: "warmGray.50",
+                      }}
+                      color="coolGray.800"
+                      alignSelf="flex-start"
+                    >
+                      {item.timeStamp}
+                    </Text>
+                  </HStack>
+                </Box>
+              )}
+              keyExtractor={(item) => item.id}
+            />
+          </Box>
+        </View>
       )}
     </View>
   );

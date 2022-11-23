@@ -23,13 +23,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "row",
-    height: "100%",
+    height: 200,
   },
 
   filteredList: {
-    maxHeight: Dimensions.get("window").height * 0.5,
     paddingHorizontal: 20,
-    borderWidth: 2,
     marginBottom: 10,
   },
 
@@ -43,15 +41,6 @@ const styles = StyleSheet.create({
   },
   searchIcon: {
     padding: 10,
-  },
-  linearGradient: {
-    alignItems: "center",
-    justifyContent: "center",
-    borderTopLeftRadius: 36,
-    borderTopRightRadius: 36,
-    height: 100,
-    height: Dimensions.get("window").height * 0.5,
-    maxHeight: Dimensions.get("window").height * 0.6,
   },
 });
 export default styles;
