@@ -2,12 +2,20 @@ import { View, Text, SafeAreaView } from "react-native";
 import { NativeBaseProvider } from "native-base";
 import Footer from "../../components/Footer";
 import styles from "./styles";
-import React from "react";
+import React, { useState } from "react";
 import Header from "../../components/Header";
 import FilterForm from "./components/FilterForm";
 import FilteredList from "./components/FilteredList";
+import { useFonts } from "expo-font";
 
 const TransactionHistory = ({ navigation }) => {
+  const [loaded] = useFonts({
+    CenturyGothic: require("../../../assets/fonts/CenturyGothic.ttf"),
+  });
+
+  if (!loaded) {
+    return null;
+  }
   return (
     <View style={styles.container}>
       <NativeBaseProvider>

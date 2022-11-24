@@ -7,7 +7,9 @@ const IncomeExpense = () => {
   return (
     <View style={{ flexDirection: "row", justifyContent: "center" }}>
       <LinearGradient
-        colors={["#FF8787", "#C16A6A"]}
+        start={{ x: 0, y: 0.2 }}
+        end={{ x: 1, y: 0.5 }}
+        colors={["#00DBDE", "#F407FE"]}
         style={{
           fontSize: "md",
           fontWeight: "medium",
@@ -26,6 +28,8 @@ const IncomeExpense = () => {
         </Text>
       </LinearGradient>
       <LinearGradient
+        start={{ x: 0, y: 0.2 }}
+        end={{ x: 1, y: 0.5 }}
         colors={["#7AF69D", "#7AF6AC"]}
         style={{
           fontSize: "md",

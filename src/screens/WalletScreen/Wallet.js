@@ -18,20 +18,37 @@ import {
 } from "native-base";
 import { AntDesign } from "react-native-vector-icons";
 import Footer from "../../components/Footer";
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
+import { Ionicons } from "react-native-vector-icons";
 import Header from "../../components/Header";
+// Rest of the import statements
+import { useFonts } from "expo-font";
+import IncomeExpense from "../TransactionHistory/components/IncomeExpense";
 
 //@ts-nocheck
 const Wallet = ({ navigation }) => {
+  const [fontsLoaded] = useFonts({
+    CenturyGothic: require("../../../assets/fonts/CenturyGothic.ttf"),
+    InterLight: require("../../../assets/fonts/Inter-Light.ttf"),
+    InterBold: require("../../../assets/fonts/Inter-Bold.ttf"),
+    InterMedium: require("../../../assets/fonts/Inter-Medium.ttf"),
+    InterSemibold: require("../../../assets/fonts/Inter-SemiBold.ttf"),
+  });
+
   const [placement, setPlacement] = useState(undefined);
-  const [open, setOpen] = useState(false);
+  const [openAddWallet, setOpenAddWallet] = useState(false);
+  const [openWallet, setOpenWallet] = useState(false);
 
   const openModal = (placement) => {
-    setOpen(true);
+    setOpenWallet(true);
     setPlacement(placement);
   };
 
   const wallets = ["Mandiri", "BCA", "OVO", "Gopay"]; // ini nanti ganti jadi API call  getWallets
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -39,61 +56,62 @@ const Wallet = ({ navigation }) => {
       <NativeBaseProvider>
         <View>
           <View style={{ height: "80%", marginTop: 20, paddingHorizontal: 20 }}>
-            <Text bold py={"5"}>
+            <Text py={"5"} style={{ fontFamily: "InterBold" }}>
               Select Wallet
             </Text>
-            <FlatList
-              data={["Mandiri", "BCA", "OVO", "Gopay"]}
-              style={{}}
-              renderItem={({ item }) => (
-                <Box
-                  pl={["0", "4"]}
-                  pr={["0", "5"]}
-                  py="4"
-                  style={{
-                    borderColor: "white",
-                    paddingHorizontal: 20,
-                    backgroundColor: "#F2F0F0",
-                    borderBottomWidth: 1,
-                  }}
-                >
-                  <HStack space={3} justifyContent="space-between" marginX={5}>
-                    <VStack>
-                      <Text
-                        _dark={{
-                          color: "warmGray.50",
+
+            <Box>
+              <FlatList
+                data={wallets}
+                renderItem={({ item }) => (
+                  <Box
+                    borderBottomWidth="1"
+                    _dark={{
+                      borderColor: "muted.50",
+                    }}
+                    borderColor="muted.800"
+                    pl={["0", "4"]}
+                    pr={["0", "5"]}
+                    py="4"
+                  >
+                    <HStack space={[2, 3]} paddingX={2}>
+                      <VStack>
+                        <Text
+                          _dark={{
+                            color: "warmGray.50",
+                          }}
+                          color="coolGray.800"
+                          bold
+                          alignSelf={"center"}
+                        >
+                          {item}
+                        </Text>
+                      </VStack>
+                      <Spacer />
+                      {/* View Wallet */}
+                      <Pressable
+                        onPress={() => {
+                          // setSelected(0);
+                          console.log(item, "pressed");
+                          setOpenWallet(true);
                         }}
-                        color="coolGray.800"
-                        bold
                       >
-                        {item}
-                      </Text>
-                    </VStack>
-                    {/* home icon */}
-                    <Pressable
-                      py="3"
-                      flex={1}
-                      onPress={() => {
-                        // setSelected(0);
-                        console.log("icon pressed");
-                      }}
-                    >
-                      <Center>
-                        <Icon
-                          mb="1"
-                          as={<AntDesign name="right" />}
-                          size="md"
-                        />
-                        {/* <Text color="white" fontSize="12">
-                Home
-              </Text> */}
-                      </Center>
-                    </Pressable>
-                  </HStack>
-                </Box>
-              )}
-              keyExtractor={(item) => item.id}
-            />
+                        <Center>
+                          <Icon
+                            mb="1"
+                            as={<AntDesign name={"rightcircle"} />}
+                            color={"#2B47FC"}
+                            size="md"
+                          />
+                        </Center>
+                      </Pressable>
+                    </HStack>
+                  </Box>
+                )}
+                keyExtractor={(item) => item.id}
+              />
+            </Box>
+
             <Stack
               direction={{
                 base: "column",
@@ -101,14 +119,14 @@ const Wallet = ({ navigation }) => {
               }}
               space={2}
             >
-              <Button onPress={() => openModal("bottom")}>Bottom</Button>
+              <Button onPress={() => openModal("bottom")}>Add Wallet</Button>
             </Stack>
           </View>
         </View>
 
         <Modal
-          isOpen={open}
-          onClose={() => setOpen(false)}
+          isOpen={openAddWallet}
+          onClose={() => setOpenAddWallet(false)}
           safeAreaTop={true}
           style={{ minWidth: Dimensions.get("screen").width }}
           borderRadius={36}
@@ -124,11 +142,11 @@ const Wallet = ({ navigation }) => {
             <Modal.Body>
               <FormControl>
                 <FormControl.Label>Name</FormControl.Label>
-                <Input />
+                <Input placeholder="" />
               </FormControl>
               <FormControl mt="3">
-                <FormControl.Label>Email</FormControl.Label>
-                <Input />
+                <FormControl.Label>Initial Balance (Rp)</FormControl.Label>
+                <Input keyboardType="numeric" placeholder="Rp 50,000" />
               </FormControl>
             </Modal.Body>
             <Modal.Footer>
@@ -137,14 +155,66 @@ const Wallet = ({ navigation }) => {
                   variant="ghost"
                   colorScheme="blueGray"
                   onPress={() => {
-                    setOpen(false);
+                    setOpenAddWallet(false);
                   }}
                 >
                   Cancel
                 </Button>
                 <Button
                   onPress={() => {
-                    setOpen(false);
+                    setOpenAddWallet(false);
+                  }}
+                >
+                  Save
+                </Button>
+              </Button.Group>
+            </Modal.Footer>
+          </Modal.Content>
+        </Modal>
+
+        <Modal
+          isOpen={openWallet}
+          onClose={() => setOpenWallet(false)}
+          safeAreaTop={true}
+          style={{ minWidth: Dimensions.get("screen").width }}
+          borderRadius={36}
+          size="full"
+        >
+          <Modal.Content
+            width={Dimensions.get("screen").width}
+            minHeight={Dimensions.get("screen").height - 200}
+            {...styles[placement]}
+          >
+            <Modal.CloseButton />
+            <Modal.Header>View Wallet</Modal.Header>
+            <Modal.Body>
+              <Box
+                borderBottomWidth="1"
+                _dark={{
+                  borderColor: "muted.50",
+                }}
+                borderColor="muted.800"
+                pl={["0", "4"]}
+                pr={["0", "5"]}
+                py="4"
+              >
+                <IncomeExpense />
+              </Box>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button.Group space={2}>
+                <Button
+                  variant="ghost"
+                  colorScheme="blueGray"
+                  onPress={() => {
+                    setOpenWallet(false);
+                  }}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  onPress={() => {
+                    setOpenWallet(false);
                   }}
                 >
                   Save
