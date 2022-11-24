@@ -1,12 +1,7 @@
 import { View, Text, Pressable, Dimensions } from "react-native";
 import React from "react";
 import { NativeBaseProvider, Box, HStack, Center, Icon } from "native-base";
-import {
-  MaterialCommunityIcons,
-  MaterialIcons,
-  Ionicons,
-  Feather,
-} from "react-native-vector-icons";
+import { MaterialCommunityIcons, Ionicons } from "react-native-vector-icons";
 import styles from "./styles";
 
 // icons can be found here:

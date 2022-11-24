@@ -28,10 +28,9 @@ const styles = StyleSheet.create({
     width: Dimensions.get("window").width * 0.8,
     maxWidth: Dimensions.get("window").width * 0.8,
     height: Dimensions.get("window").height * 0.5,
-
     borderRadius: 25,
     padding: 25,
-    backgroundColor: "#E4F2FB",
+    backgroundColor: "#F2F0F0",
     position: "relative",
     // max: {Dimension.get("window").width *0.7}
   },

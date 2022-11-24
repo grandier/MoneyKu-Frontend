@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, Dimensions } from "react-native";
+import { View, SafeAreaView, Dimensions } from "react-native";
 import {
   NativeBaseProvider,
   Button,
@@ -6,7 +6,17 @@ import {
   Modal,
   FormControl,
   Input,
+  FlatList,
+  HStack,
+  VStack,
+  Spacer,
+  Text,
+  Box,
+  Pressable,
+  Icon,
+  Center,
 } from "native-base";
+import { AntDesign } from "react-native-vector-icons";
 import Footer from "../../components/Footer";
 import React, { useState } from "react";
 import Header from "../../components/Header";
@@ -21,19 +31,81 @@ const Wallet = ({ navigation }) => {
     setPlacement(placement);
   };
 
+  const wallets = ["Mandiri", "BCA", "OVO", "Gopay"]; // ini nanti ganti jadi API call  getWallets
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Header title="Wallets" />
       <NativeBaseProvider>
-        <Stack
-          direction={{
-            base: "column",
-            md: "row",
-          }}
-          space={2}
-        >
-          <Button onPress={() => openModal("bottom")}>Bottom</Button>
-        </Stack>
+        <View>
+          <View style={{ height: "80%", marginTop: 20, paddingHorizontal: 20 }}>
+            <Text bold py={"5"}>
+              Select Wallet
+            </Text>
+            <FlatList
+              data={["Mandiri", "BCA", "OVO", "Gopay"]}
+              style={{}}
+              renderItem={({ item }) => (
+                <Box
+                  pl={["0", "4"]}
+                  pr={["0", "5"]}
+                  py="4"
+                  style={{
+                    borderColor: "white",
+                    paddingHorizontal: 20,
+                    backgroundColor: "#F2F0F0",
+                    borderBottomWidth: 1,
+                  }}
+                >
+                  <HStack space={3} justifyContent="space-between" marginX={5}>
+                    <VStack>
+                      <Text
+                        _dark={{
+                          color: "warmGray.50",
+                        }}
+                        color="coolGray.800"
+                        bold
+                      >
+                        {item}
+                      </Text>
+                    </VStack>
+                    {/* home icon */}
+                    <Pressable
+                      py="3"
+                      flex={1}
+                      onPress={() => {
+                        // setSelected(0);
+                        console.log("icon pressed");
+                      }}
+                    >
+                      <Center>
+                        <Icon
+                          mb="1"
+                          as={<AntDesign name="right" />}
+                          size="md"
+                        />
+                        {/* <Text color="white" fontSize="12">
+                Home
+              </Text> */}
+                      </Center>
+                    </Pressable>
+                  </HStack>
+                </Box>
+              )}
+              keyExtractor={(item) => item.id}
+            />
+            <Stack
+              direction={{
+                base: "column",
+                md: "row",
+              }}
+              space={2}
+            >
+              <Button onPress={() => openModal("bottom")}>Bottom</Button>
+            </Stack>
+          </View>
+        </View>
+
         <Modal
           isOpen={open}
           onClose={() => setOpen(false)}

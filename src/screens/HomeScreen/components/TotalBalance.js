@@ -27,8 +27,8 @@ const TotalBalance = () => {
       <View alignItems={"center"}>
         <Box
           border="1"
+          shadow="9"
           borderRadius="3xl"
-          borderWidth={5}
           position={"absolute"}
           top={-100}
           zIndex={100}
