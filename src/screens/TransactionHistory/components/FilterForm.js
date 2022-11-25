@@ -31,6 +31,12 @@ const FilterForm = ({ navigation }) => {
   };
   const wallets = ["Mandiri", "BCA", "OVO", "Gopay"]; // ini nanti ganti jadi API call  getWallets
 
+  const walletsFetchData = [
+    { id: 1, name: "Mandiri", income: "1500000", expense: "1000000" },
+    { id: 2, name: "BCA", income: "3000000", expense: "2800000" },
+    { id: 3, name: "OVO", income: "1000000", expense: "900000" },
+    { id: 4, name: "Gopay", income: "1000000", expense: "600000" },
+  ];
   const [filterData, setFilterData] = useState(filterDataFormat);
 
   const [isDatePickerStartVisible, setDatePickerStartVisibility] =
@@ -221,7 +227,7 @@ const FilterForm = ({ navigation }) => {
               marginVertical: 10,
             }}
           >
-            <IncomeExpense />
+            <IncomeExpense walletData={walletsFetchData} />
           </View>
           <Box style={styles.filteredList}>
             <FlatList
