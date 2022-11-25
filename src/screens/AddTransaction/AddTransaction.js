@@ -32,10 +32,8 @@ const AddTransaction = ({ navigation }) => {
     transactionType: "",
   };
 
-  const [transaction, setTransaction] = React.useState(transactionDataFormat);
-
-  // for radio buttons
   const [checked, setChecked] = React.useState("first");
+  const [transaction, setTransaction] = React.useState(transactionDataFormat);
 
   const wallets = ["Mandiri", "BCA", "OVO", "Gopay"]; // ini nanti ganti jadi API call  getWallets
   const categories = [

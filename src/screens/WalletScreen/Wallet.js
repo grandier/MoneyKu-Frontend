@@ -18,10 +18,8 @@ import {
 } from "native-base";
 import { AntDesign } from "react-native-vector-icons";
 import Footer from "../../components/Footer";
-import React, { useState, useCallback } from "react";
-import { Ionicons } from "react-native-vector-icons";
+import React, { useState, useCallback, useEffect } from "react";
 import Header from "../../components/Header";
-// Rest of the import statements
 import { useFonts } from "expo-font";
 import IncomeExpense from "../TransactionHistory/components/IncomeExpense";
 
@@ -38,14 +36,28 @@ const Wallet = ({ navigation }) => {
   const [placement, setPlacement] = useState(undefined);
   const [openAddWallet, setOpenAddWallet] = useState(false);
   const [openWallet, setOpenWallet] = useState(false);
+  const [addWalletData, setAddWalletData] = useState({
+    walletName: "",
+    walletInitialBalance: "",
+  });
 
   const openModal = (placement) => {
     setOpenWallet(true);
     setPlacement(placement);
   };
 
-  const wallets = ["Mandiri", "BCA", "OVO", "Gopay"]; // ini nanti ganti jadi API call  getWallets
+  useEffect(() => {
+    console.log("openWallet: ", openWallet);
+    console.log("openAddWallet: ", openAddWallet);
+    console.log(addWalletData);
+  }, [openWallet, openAddWallet, addWalletData]);
 
+  const walletsFetchData = [
+    { id: 1, name: "Mandiri", income: "1500000", expense: "1000000" },
+    { id: 2, name: "BCA", income: "3000000", expense: "2800000" },
+    { id: 3, name: "OVO", income: "1000000", expense: "900000" },
+    { id: 4, name: "Gopay", income: "1000000", expense: "600000" },
+  ];
   if (!fontsLoaded) {
     return null;
   }
@@ -62,7 +74,7 @@ const Wallet = ({ navigation }) => {
 
             <Box>
               <FlatList
-                data={wallets}
+                data={walletsFetchData}
                 renderItem={({ item }) => (
                   <Box
                     borderBottomWidth="1"
@@ -84,7 +96,7 @@ const Wallet = ({ navigation }) => {
                           bold
                           alignSelf={"center"}
                         >
-                          {item}
+                          {item.name}
                         </Text>
                       </VStack>
                       <Spacer />
@@ -92,7 +104,7 @@ const Wallet = ({ navigation }) => {
                       <Pressable
                         onPress={() => {
                           // setSelected(0);
-                          console.log(item, "pressed");
+                          console.log(item.name, "pressed");
                           setOpenWallet(true);
                         }}
                       >
@@ -119,7 +131,15 @@ const Wallet = ({ navigation }) => {
               }}
               space={2}
             >
-              <Button onPress={() => openModal("bottom")}>Add Wallet</Button>
+              <Button
+                onPress={() => {
+                  openModal("bottom");
+                  setOpenAddWallet(true);
+                  setOpenWallet(false);
+                }}
+              >
+                Add Wallet
+              </Button>
             </Stack>
           </View>
         </View>
@@ -142,11 +162,27 @@ const Wallet = ({ navigation }) => {
             <Modal.Body>
               <FormControl>
                 <FormControl.Label>Name</FormControl.Label>
-                <Input placeholder="" />
+                <Input
+                  placeholder=""
+                  value={addWalletData.walletName}
+                  onChangeText={(name) =>
+                    setAddWalletData({ ...addWalletData, walletName: name })
+                  }
+                />
               </FormControl>
               <FormControl mt="3">
                 <FormControl.Label>Initial Balance (Rp)</FormControl.Label>
-                <Input keyboardType="numeric" placeholder="Rp 50,000" />
+                <Input
+                  keyboardType="numeric"
+                  placeholder="Rp 50,000"
+                  value={addWalletData.walletInitialBalance}
+                  onChangeText={(initialBalance) =>
+                    setAddWalletData({
+                      ...addWalletData,
+                      walletInitialBalance: initialBalance,
+                    })
+                  }
+                />
               </FormControl>
             </Modal.Body>
             <Modal.Footer>
@@ -198,7 +234,7 @@ const Wallet = ({ navigation }) => {
                 pr={["0", "5"]}
                 py="4"
               >
-                <IncomeExpense />
+                <IncomeExpense walletData={walletsFetchData} />
               </Box>
             </Modal.Body>
             <Modal.Footer>
