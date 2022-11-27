@@ -9,6 +9,7 @@ const UserPage = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <NativeBaseProvider>
         <Header title="User Profile" />
+        <View style={styles.container}></View>
         <Footer navigation={navigation} selected={4} />
       </NativeBaseProvider>
     </SafeAreaView>

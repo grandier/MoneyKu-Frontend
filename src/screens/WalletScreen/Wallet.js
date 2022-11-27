@@ -22,6 +22,7 @@ import React, { useState, useCallback, useEffect } from "react";
 import Header from "../../components/Header";
 import { useFonts } from "expo-font";
 import IncomeExpense from "../TransactionHistory/components/IncomeExpense";
+import client from "../../API/client";
 
 //@ts-nocheck
 const Wallet = ({ navigation }) => {
@@ -44,6 +45,25 @@ const Wallet = ({ navigation }) => {
   const openModal = (placement) => {
     setOpenWallet(true);
     setPlacement(placement);
+  };
+
+  const addWallet = async () => {
+    await client
+      .post("/createWallet", {
+        balance: addWalletData.walletInitialBalance,
+        email: signUpData.name,
+        password: signUpData.password,
+      })
+      .then(function (response) {
+        console.log(response.status);
+        if (response.status == "200") {
+          navigation.navigate("Signin");
+        }
+      })
+      .catch(function (error) {
+        console.error(error);
+        console.log("masuk catch");
+      });
   };
 
   useEffect(() => {

@@ -9,19 +9,6 @@ import {
   Image,
   SafeAreaView,
 } from "react-native";
-import {
-  NativeBaseProvider,
-  Box,
-  HStack,
-  Center,
-  Icon,
-  IconButton,
-} from "native-base";
-import {
-  MaterialCommunityIcons,
-  MaterialIcons,
-  Feather,
-} from "react-native-vector-icons";
 
 import Footer from "../../components/Footer";
 import Greeter from "./components/greeter";
@@ -30,6 +17,7 @@ import { Header } from "../../components/Header";
 import { LinearGradient } from "expo-linear-gradient";
 import TotalBalance from "./components/TotalBalance";
 import AppBar from "../../components/AppBar";
+import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 export default function Home({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
@@ -44,6 +32,78 @@ export default function Home({ navigation }) {
         <Greeter user={{ name: "Aidan Azkafaro" }} />
       </LinearGradient>
       <TotalBalance />
+      <View
+        style={{
+          position: "absolute",
+          bottom: 120,
+          justifyContent: "center",
+          width: Dimensions.get("window").width * 1,
+        }}
+      >
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "center",
+            marginHorizontal: 2,
+            width: Dimensions.get("window").width * 1,
+            alignSelf: "center",
+          }}
+        >
+          <LinearGradient
+            start={{ x: 0, y: 0.2 }}
+            end={{ x: 1, y: 0.5 }}
+            colors={["#B52FF8", "#F407FE"]}
+            style={{
+              fontSize: "md",
+              fontWeight: "medium",
+              color: "warmGray.50",
+              textAlign: "center",
+              marginHorizontal: 30,
+              padding: 20,
+              borderRadius: 20,
+              height: 100,
+              width: 150,
+              justifyContent: "center",
+            }}
+          >
+            <Pressable>
+              <Text
+                style={{
+                  fontSize: 15,
+                  color: "#fff",
+                  fontWeight: "bold",
+                  alignSelf: "center",
+                }}
+              >
+                Check History
+              </Text>
+            </Pressable>
+          </LinearGradient>
+          <LinearGradient
+            start={{ x: 0, y: 0.2 }}
+            end={{ x: 1, y: 0.5 }}
+            colors={["#5970FF", "#40CEF2"]}
+            style={{
+              fontSize: "md",
+              fontWeight: "medium",
+              color: "warmGray.50",
+              textAlign: "center",
+              marginHorizontal: 30,
+              padding: 20,
+              borderRadius: 20,
+              height: 100,
+              width: 150,
+            }}
+          >
+            <Text style={{ fontSize: 15, color: "#fff", fontWeight: "900" }}>
+              Income
+            </Text>
+            <Text style={{ fontWeight: "bold", fontSize: 15, color: "#fff" }}>
+              Rp
+            </Text>
+          </LinearGradient>
+        </View>
+      </View>
       <Footer navigation={navigation} selected={0} />
     </SafeAreaView>
   );

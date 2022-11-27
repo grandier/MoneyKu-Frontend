@@ -1,8 +1,9 @@
 import { View, Text } from "react-native";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import WavyHeader from "../../components/WavyHeader";
 import { StyleSheet, Dimensions } from "react-native";
-
+import axios from "axios";
+import client from "../../API/client";
 import {
   Center,
   Box,
@@ -16,7 +17,32 @@ import {
   NativeBaseProvider,
 } from "native-base";
 
-const SignUpScreen = () => {
+const SignUpScreen = ({ navigation }) => {
+  const [signUpData, setSignUpData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  const signUp = async () => {
+    await client
+      .post("/register", {
+        name: signUpData.name,
+        email: signUpData.name,
+        password: signUpData.password,
+      })
+      .then(function (response) {
+        console.log(response.status);
+        if (response.status == "200") {
+          navigation.navigate("Signin");
+        }
+      })
+      .catch(function (error) {
+        console.error(error);
+        console.log("masuk catch");
+      });
+  };
+
   return (
     <NativeBaseProvider>
       <WavyHeader customStyles={styles.svgCurve} />
@@ -36,26 +62,50 @@ const SignUpScreen = () => {
 
           <VStack space={3} mt="8">
             <FormControl>
+              <FormControl.Label>Name</FormControl.Label>
+              <Input
+                variant="underlined"
+                isRequired
+                type="text"
+                autoComplete="name"
+                value={signUpData.name}
+                placeholder=""
+                keyboardType="default"
+                onChangeText={(name) => {
+                  setSignUpData({ ...signUpData, name: name });
+                }}
+              />
+            </FormControl>
+            <FormControl>
               <FormControl.Label>Email ID</FormControl.Label>
-              <Input variant="underlined" type="email" />
+              <Input
+                variant="underlined"
+                isRequired
+                type="email"
+                autoComplete="email"
+                value={signUpData.email}
+                keyboardType="email-address"
+                onChangeText={(email) => {
+                  setSignUpData({ ...signUpData, email: email });
+                }}
+              />
             </FormControl>
             <FormControl>
               <FormControl.Label>Password</FormControl.Label>
-              <Input variant="underlined" type="password" />
-            </FormControl>
-            <FormControl>
-              <FormControl.Label>Confirm Password</FormControl.Label>
-              <Input variant="underlined" type="password" />
-            </FormControl>
-            <FormControl>
-              <FormControl.Label>Mobile Number</FormControl.Label>
               <Input
                 variant="underlined"
-                keyboardType="numeric"
-                placeholder="+62+"
+                isRequired
+                type="password"
+                autoComplete="password"
+                secureTextEntry={true}
+                value={signUpData.password}
+                onChangeText={(password) => {
+                  setSignUpData({ ...signUpData, password: password });
+                }}
               />
             </FormControl>
-            <Button mt="2" colorScheme="indigo">
+
+            <Button mt="2" colorScheme="indigo" onPress={signUp}>
               Sign Up
             </Button>
           </VStack>

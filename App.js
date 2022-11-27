@@ -62,7 +62,7 @@ export default class App extends React.Component {
       <NavigationContainer theme={theme}>
         <Stack.Navigator
           screenOptions={{ headerShown: false }}
-          initialRouteName="Wallet"
+          initialRouteName="Signin"
         >
           <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="Onboarding" component={OnboardingScreen} />

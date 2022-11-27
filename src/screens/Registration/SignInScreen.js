@@ -1,8 +1,8 @@
 import { View, Text } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import WavyHeader from "../../components/WavyHeader";
 import { StyleSheet, Dimensions } from "react-native";
-
+import client from "../../API/client";
 import {
   Center,
   Box,
@@ -16,7 +16,34 @@ import {
   NativeBaseProvider,
 } from "native-base";
 
-const SignInScreen = () => {
+const SignInScreen = ({ navigation }) => {
+  const [signInData, setSignInData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const signIn = async () => {
+    const response = await client
+      .post("/login", {
+        email: signInData.email,
+        password: signInData.password,
+      })
+      .then(function (response) {
+        console.log(response.status);
+        // if (response.data) {
+        //   localStorage.setItem("user", JSON.stringify(response.data));
+        // }
+        // console.log(JSON.stringify(response.data));
+        if (response.status == "200") {
+          navigation.navigate("Home");
+        }
+      })
+      .catch(function (error) {
+        console.error(error);
+        console.log("masuk catch");
+      });
+  };
+
   return (
     <NativeBaseProvider>
       <WavyHeader customStyles={styles.svgCurve} />
@@ -37,13 +64,33 @@ const SignInScreen = () => {
           <VStack space={3} mt="5">
             <FormControl>
               <FormControl.Label>Email ID</FormControl.Label>
-              <Input variant="underlined" type="email" />
+              <Input
+                isRequired
+                variant="underlined"
+                type="email"
+                autoComplete="email"
+                value={signInData.email}
+                keyboardType="email-address"
+                onChangeText={(email) => {
+                  setSignInData({ ...signInData, email: email });
+                }}
+              />
             </FormControl>
             <FormControl>
               <FormControl.Label>Password</FormControl.Label>
-              <Input variant="underlined" type="password" />
+              <Input
+                isRequired
+                variant="underlined"
+                type="password"
+                autoComplete="password"
+                secureTextEntry={true}
+                value={signInData.password}
+                onChangeText={(password) => {
+                  setSignInData({ ...signInData, password: password });
+                }}
+              />
             </FormControl>
-            <Button mt="2" colorScheme="indigo" rounded={100}>
+            <Button mt="2" colorScheme="indigo" rounded={100} onPress={signIn}>
               Sign in
             </Button>
             <HStack mt="6" justifyContent="center">
@@ -54,7 +101,7 @@ const SignInScreen = () => {
                   color: "warmGray.200",
                 }}
               >
-                I'm a new user.{" "}
+                I'm a new user.
               </Text>
               <Link
                 _text={{
