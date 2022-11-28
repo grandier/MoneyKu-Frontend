@@ -22,6 +22,7 @@ import {
   Button,
   NumberInput,
 } from "native-base";
+import client from "../../API/client";
 
 const AddTransaction = ({ navigation }) => {
   const transactionDataFormat = {
@@ -55,6 +56,18 @@ const AddTransaction = ({ navigation }) => {
     "Health",
     "Other",
   ];
+
+  const postTransaction = async () => {
+    client
+      .post("/login", {
+        email: signInData.email,
+        password: signInData.password,
+      })
+      .then(function (response) {})
+      .catch(function (error) {
+        console.error(error);
+      });
+  };
   return (
     <SafeAreaView style={styles.container}>
       <NativeBaseProvider>

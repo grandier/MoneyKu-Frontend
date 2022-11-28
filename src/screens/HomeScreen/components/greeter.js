@@ -5,7 +5,7 @@ export default function Greeter({ user }) {
   return (
     <View style={styles.container}>
       <View>
-        <Text style={styles.greeting}>Good Morning</Text>
+        <Text style={styles.greeting}>Welcome back</Text>
         <Text style={styles.name}> {user.name}</Text>
       </View>
     </View>

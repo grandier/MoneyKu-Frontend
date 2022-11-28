@@ -38,8 +38,8 @@ const SignInScreen = ({ navigation }) => {
         // console.log(JSON.stringify(response.data));
         if (response.data.message === "Login successful") {
           navigation.navigate("Home");
-        }
-        else {
+        } else {
+          alert("Username/password doesn't match");
           setSignInData.email = "";
           setSignInData.password = "";
         }

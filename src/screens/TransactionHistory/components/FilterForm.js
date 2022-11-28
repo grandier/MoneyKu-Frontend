@@ -20,6 +20,7 @@ import { Dimensions } from "react-native";
 import { Ionicons } from "react-native-vector-icons";
 import resultData from "../resultData";
 import IncomeExpense from "./IncomeExpense";
+import client from "../../../API/client";
 
 const FilterForm = ({ navigation }) => {
   const dateToday = new Date();
@@ -29,7 +30,7 @@ const FilterForm = ({ navigation }) => {
     endDate: dateToday,
     wallet: "",
   };
-  const wallets = ["Mandiri", "BCA", "OVO", "Gopay"]; // ini nanti ganti jadi API call  getWallets
+  const wallets = ["All", "Mandiri", "BCA", "OVO", "Gopay"]; // ini nanti ganti jadi API call  getWallets
 
   const walletsFetchData = [
     { id: 1, name: "Mandiri", income: "1500000", expense: "1000000" },
@@ -58,14 +59,43 @@ const FilterForm = ({ navigation }) => {
     setDatePickerEndVisibility(false);
   };
 
-  useEffect(() => {
-    setShowFilter(true);
-  }, []);
+  // fetch filtered transaction
+  const getFilteredTransaction = async () => {
+    client
+      .get("/", {
+        filterData: filterData,
+      })
+      .then(function (response) {
+        console.log(response.status);
+        console.log(response.data.message);
+        // setFilterData(hasil-response)
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+  };
+
+  // fetch all the wallets
+  const getWallets = async () => {
+    client
+      .get("/", {
+        // email: signInData.email,
+        // password: signInData.password,
+      })
+      .then(function (response) {
+        console.log(response.status);
+        console.log(response.data.message);
+        // setFilterData(hasil-response)
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+  };
 
   useEffect(() => {
-    console.log(filterData);
-    console.log("show filter = ", showFilter);
-  }, [filterData]);
+    getWallets;
+    setShowFilter(true);
+  }, []);
 
   async function handleConfirmStart(date) {
     console.log("A start date has been picked: ", date);
@@ -195,6 +225,7 @@ const FilterForm = ({ navigation }) => {
                       onPress={() => {
                         console.log(filterData);
                         setShowFilter(!showFilter);
+                        getFilteredTransaction;
                       }}
                       on
                     >
