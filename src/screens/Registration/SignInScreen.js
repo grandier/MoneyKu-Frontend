@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import WavyHeader from "../../components/WavyHeader";
 import { StyleSheet, Dimensions } from "react-native";
 import client from "../../API/client";
+import SignUpScreen from "./SignUpScreen";
 import {
   Center,
   Box,
@@ -23,19 +24,24 @@ const SignInScreen = ({ navigation }) => {
   });
 
   const signIn = async () => {
-    const response = await client
+    client
       .post("/login", {
         email: signInData.email,
         password: signInData.password,
       })
       .then(function (response) {
         console.log(response.status);
+        console.log(response.data.message);
         // if (response.data) {
         //   localStorage.setItem("user", JSON.stringify(response.data));
         // }
         // console.log(JSON.stringify(response.data));
-        if (response.status == "200") {
+        if (response.data.message === "Login successful") {
           navigation.navigate("Home");
+        }
+        else {
+          setSignInData.email = "";
+          setSignInData.password = "";
         }
       })
       .catch(function (error) {
@@ -109,7 +115,8 @@ const SignInScreen = ({ navigation }) => {
                   fontWeight: "medium",
                   fontSize: "sm",
                 }}
-                href="#"
+                onPress={() => navigation.navigate("Signup")}
+                // href=""
               >
                 Sign Up
               </Link>

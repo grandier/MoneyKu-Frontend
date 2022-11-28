@@ -25,7 +25,7 @@ const SignUpScreen = ({ navigation }) => {
   });
 
   const signUp = async () => {
-    await client
+    client
       .post("/register", {
         name: signUpData.name,
         email: signUpData.name,
@@ -33,8 +33,13 @@ const SignUpScreen = ({ navigation }) => {
       })
       .then(function (response) {
         console.log(response.status);
-        if (response.status == "200") {
+        if (response.data.message == "User Created") {
           navigation.navigate("Signin");
+        }
+        else{
+          setSignUpData.name = "";
+          setSignUpData.email = "";
+          setSignUpData.password = "";
         }
       })
       .catch(function (error) {
