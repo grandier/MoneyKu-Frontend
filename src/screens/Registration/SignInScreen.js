@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import WavyHeader from "../../components/WavyHeader";
 import { StyleSheet, Dimensions } from "react-native";
 import client from "../../API/client";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import SignUpScreen from "./SignUpScreen";
 import {
   Center,
@@ -29,7 +30,7 @@ const SignInScreen = ({ navigation }) => {
         email: signInData.email,
         password: signInData.password,
       })
-      .then(function (response) {
+      .then(async function (response) {
         console.log(response.status);
         console.log(response.data.message);
         // if (response.data) {
@@ -37,7 +38,10 @@ const SignInScreen = ({ navigation }) => {
         // }
         // console.log(JSON.stringify(response.data));
         if (response.data.message === "Login successful") {
+          await AsyncStorage.setItem("id", JSON.stringify(response.data.idUser));
+          console.log(await AsyncStorage.getItem("id"));
           navigation.navigate("Home");
+          console.log("masuk");
         } else {
           alert("Username/password doesn't match");
           setSignInData.email = "";
@@ -46,9 +50,10 @@ const SignInScreen = ({ navigation }) => {
       })
       .catch(function (error) {
         console.error(error);
-        console.log("masuk catch");
+        console.log("masuk catch login");
       });
   };
+
 
   return (
     <NativeBaseProvider>

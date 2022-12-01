@@ -10,7 +10,7 @@ import React from "react";
 import { Dimensions } from "react-native";
 import { LineChart } from "react-native-chart-kit";
 
-const TotalBalance = () => {
+const TotalBalance = ({userBalance}) => {
   const data = {
     labels: ["January", "February", "March", "April", "May", "June"],
     datasets: [
@@ -43,7 +43,7 @@ const TotalBalance = () => {
                 <Text
                   style={{ fontWeight: "bold", fontSize: 20, color: "#2D99FF" }}
                 >
-                  Rp. 8,500,000.00
+                  Rp. {userBalance}
                 </Text>
                 <LineChart
                   data={data}

@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -18,7 +18,43 @@ import { LinearGradient } from "expo-linear-gradient";
 import TotalBalance from "./components/TotalBalance";
 import AppBar from "../../components/AppBar";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
+import client from "../../API/client";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
 export default function Home({ navigation }) {
+ const [name, setName] = useState("")
+ const [totalBalance, setTotalBalance] = useState("")
+
+  const getName = async () => {
+    const id = await AsyncStorage.getItem("id");
+    console.log(id);
+
+    client
+      .get("/getAccountDetail", {
+        params: {
+          idUser: id,
+        },
+        })
+        .then(function (response) {
+          console.log(response.status);
+          console.log(response.data.name);
+          console.log(response.data.balance);
+          setName(response.data.name);
+          setTotalBalance(response.data.balance);
+        })
+      .catch(function (error) {
+        console.error(error);
+        console.log("masuk catch");
+      });
+  };
+
+  useEffect( () => {
+    getName();
+  }, []);
+
+
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar translucent backgroundColor="transparent" />
@@ -29,9 +65,9 @@ export default function Home({ navigation }) {
         style={styles.linearGradient}
       >
         <AppBar />
-        <Greeter user={{ name: "Aidan Azkafaro" }} />
+        <Greeter user={ name } />
       </LinearGradient>
-      <TotalBalance />
+      <TotalBalance userBalance={totalBalance} />
       <View
         style={{
           position: "absolute",
