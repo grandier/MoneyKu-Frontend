@@ -33,13 +33,15 @@ const SignInScreen = ({ navigation }) => {
       .then(async function (response) {
         console.log(response.status);
         console.log(response.data.message);
+        console.log(response.data);
         // if (response.data) {
         //   localStorage.setItem("user", JSON.stringify(response.data));
         // }
         // console.log(JSON.stringify(response.data));
         if (response.data.message === "Login successful") {
           await AsyncStorage.setItem("id", JSON.stringify(response.data.idUser));
-          console.log(await AsyncStorage.getItem("id"));
+          // await AsyncStorage.setItem("wallet", JSON.stringify(response.data.wallet));
+          // console.log(await AsyncStorage.getItem("wallet"));
           navigation.navigate("Home");
           console.log("masuk");
         } else {

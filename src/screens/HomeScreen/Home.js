@@ -36,10 +36,12 @@ export default function Home({ navigation }) {
           idUser: id,
         },
         })
-        .then(function (response) {
+        .then(async function (response) {
           console.log(response.status);
           console.log(response.data.name);
           console.log(response.data.balance);
+          await AsyncStorage.setItem("wallet", JSON.stringify(response.data.wallet));
+          console.log(await AsyncStorage.getItem("wallet"));
           setName(response.data.name);
           setTotalBalance(response.data.balance);
         })
