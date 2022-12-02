@@ -23,6 +23,7 @@ import Header from "../../components/Header";
 import { useFonts } from "expo-font";
 import IncomeExpense from "../TransactionHistory/components/IncomeExpense";
 import client from "../../API/client";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //@ts-nocheck
 const Wallet = ({ navigation }) => {
@@ -37,6 +38,7 @@ const Wallet = ({ navigation }) => {
   const [placement, setPlacement] = useState(undefined);
   const [openAddWallet, setOpenAddWallet] = useState(false);
   const [openWallet, setOpenWallet] = useState(false);
+  const [walletsFetchData, setWallet] = useState([]);
   const [addWalletData, setAddWalletData] = useState({
     walletName: "",
     walletInitialBalance: "",
@@ -51,8 +53,8 @@ const Wallet = ({ navigation }) => {
     await client
       .post("/createWallet", {
         balance: addWalletData.walletInitialBalance,
-        email: signUpData.name,
-        password: signUpData.password,
+        name: addWalletData.walletName,
+        idUser: await AsyncStorage.getItem("id"),
       })
       .then(function (response) {
         console.log(response.status);
@@ -64,20 +66,24 @@ const Wallet = ({ navigation }) => {
         console.error(error);
         console.log("masuk catch");
       });
-  };
+  }; 
 
   useEffect(() => {
     console.log("openWallet: ", openWallet);
     console.log("openAddWallet: ", openAddWallet);
     console.log(addWalletData);
-  }, [openWallet, openAddWallet, addWalletData]);
+    getWallet();
+    console.log(walletsFetchData);
+  }, [openWallet, openAddWallet, addWalletData, getWallet]);
 
-  const walletsFetchData = [
-    { id: 1, name: "Mandiri", income: "1500000", expense: "1000000" },
-    { id: 2, name: "BCA", income: "3000000", expense: "2800000" },
-    { id: 3, name: "OVO", income: "1000000", expense: "900000" },
-    { id: 4, name: "Gopay", income: "1000000", expense: "600000" },
-  ];
+const getWallet = async () => {
+  setWallet (JSON.parse(await AsyncStorage.getItem("wallet")))
+     
+    // { id: 1, name: "Mandiri", income: "1500000", expense: "1000000" },
+    // { id: 2, name: "BCA", income: "3000000", expense: "2800000" },
+    // { id: 3, name: "OVO", income: "1000000", expense: "900000" },
+    // { id: 4, name: "Gopay", income: "1000000", expense: "600000" },
+};
   if (!fontsLoaded) {
     return null;
   }
@@ -116,7 +122,7 @@ const Wallet = ({ navigation }) => {
                           bold
                           alignSelf={"center"}
                         >
-                          {item.name}
+                          {item.namewallet}
                         </Text>
                       </VStack>
                       <Spacer />
@@ -124,7 +130,7 @@ const Wallet = ({ navigation }) => {
                       <Pressable
                         onPress={() => {
                           // setSelected(0);
-                          console.log(item.name, "pressed");
+                          console.log(item, "pressed");
                           setOpenWallet(true);
                         }}
                       >
@@ -218,7 +224,7 @@ const Wallet = ({ navigation }) => {
                 </Button>
                 <Button
                   onPress={() => {
-                    setOpenAddWallet(false);
+                    addWallet();
                   }}
                 >
                   Save
