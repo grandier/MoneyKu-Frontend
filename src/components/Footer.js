@@ -1,4 +1,4 @@
-import { View, Text, Pressable, Dimensions } from "react-native";
+import { View, Text, Pressable, Dimensions, LogBox } from "react-native";
 import React from "react";
 import { NativeBaseProvider, Box, HStack, Center, Icon } from "native-base";
 import { MaterialCommunityIcons, Ionicons } from "react-native-vector-icons";
@@ -8,6 +8,8 @@ import styles from "./styles";
 // https://oblador.github.io/react-native-vector-icons/
 
 const Footer = ({ navigation, selected }) => {
+  LogBox.ignoreLogs(["EventEmitter.removeListener"]);
+
   return (
     <NativeBaseProvider>
       <Box
@@ -27,8 +29,6 @@ const Footer = ({ navigation, selected }) => {
             py="3"
             flex={1}
             onPress={() => {
-              // setSelected(0);
-              console.log("home pressed");
               navigation.navigate("Home");
             }}
           >
@@ -55,7 +55,6 @@ const Footer = ({ navigation, selected }) => {
             flex={1}
             onPress={() => {
               // setSelected(3);
-              console.log("Transfer icon pressed");
               navigation.navigate("TransactionHistory");
             }}
           >
@@ -81,7 +80,6 @@ const Footer = ({ navigation, selected }) => {
             flex={1}
             onPress={() => {
               // setSelected(2);
-              console.log("add icon pressed");
               navigation.navigate("AddTransaction");
             }}
           >
@@ -106,8 +104,6 @@ const Footer = ({ navigation, selected }) => {
             py="2"
             flex={1}
             onPress={() => {
-              // setSelected(1);
-              console.log("notification bell pressed");
               navigation.navigate("Wallet");
             }}
           >
@@ -136,7 +132,6 @@ const Footer = ({ navigation, selected }) => {
             flex={1}
             onPress={() => {
               // setSelected(4);
-              console.log("user profile pressed");
               navigation.navigate("UserPage");
             }}
           >
