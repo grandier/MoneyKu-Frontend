@@ -10,7 +10,7 @@ import React from "react";
 import { Dimensions } from "react-native";
 import { LineChart } from "react-native-chart-kit";
 
-const TotalBalance = ({userBalance}) => {
+const TotalBalance = ({ userBalance }) => {
   const data = {
     labels: ["January", "February", "March", "April", "May", "June"],
     datasets: [
@@ -43,7 +43,8 @@ const TotalBalance = ({userBalance}) => {
                 <Text
                   style={{ fontWeight: "bold", fontSize: 20, color: "#2D99FF" }}
                 >
-                  Rp. {userBalance}
+                  Rp.{" "}
+                  {userBalance.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}
                 </Text>
                 <LineChart
                   data={data}

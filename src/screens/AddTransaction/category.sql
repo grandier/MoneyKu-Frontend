@@ -1,18 +1,89 @@
-INSERT INTO expensecategory VALUES (default,'Entertainment');
-INSERT INTO expensecategory VALUES (default,'Food/Drink');
-INSERT INTO expensecategory VALUES (default,'Electronics');
-INSERT INTO expensecategory VALUES (default,'Daily Needs');
-INSERT INTO expensecategory VALUES (default,'Fashion');
-INSERT INTO expensecategory VALUES (default,'Shopping');
-INSERT INTO expensecategory VALUES (default,'Bills');
-INSERT INTO expensecategory VALUES (default,'Gifts');
-INSERT INTO expensecategory VALUES (default,'Salary');
-INSERT INTO expensecategory VALUES (default,'Transfer');
-INSERT INTO expensecategory VALUES (default,'Business');
-INSERT INTO expensecategory VALUES (default,'Investment');
-INSERT INTO expensecategory VALUES (default,'Education');
-INSERT INTO expensecategory VALUES (default,'Self-improvement');
-INSERT INTO expensecategory VALUES (default,'Family');
-INSERT INTO expensecategory VALUES (default,'Health');
-INSERT INTO expensecategory VALUES (default,'Other Income');
-INSERT INTO expensecategory VALUES (default,'Other Expense');
+INSERT INTO
+    incomecategory
+VALUES
+    (1, 'Entertainment');
+
+INSERT INTO
+    incomecategory
+VALUES
+    (2, 'Food/Drink');
+
+INSERT INTO
+    incomecategory
+VALUES
+    (3, 'Electronics');
+
+INSERT INTO
+    incomecategory
+VALUES
+    (4, 'Daily Needs');
+
+INSERT INTO
+    incomecategory
+VALUES
+    (5, 'Fashion');
+
+INSERT INTO
+    incomecategory
+VALUES
+    (6, 'Shopping');
+
+INSERT INTO
+    incomecategory
+VALUES
+    (7, 'Bills');
+
+INSERT INTO
+    incomecategory
+VALUES
+    (8, 'Gifts');
+
+INSERT INTO
+    incomecategory
+VALUES
+    (9, 'Salary');
+
+INSERT INTO
+    incomecategory
+VALUES
+    (10, 'Transfer');
+
+INSERT INTO
+    incomecategory
+VALUES
+    (11, 'Business');
+
+INSERT INTO
+    incomecategory
+VALUES
+    (12, 'Investment');
+
+INSERT INTO
+    incomecategory
+VALUES
+    (13, 'Education');
+
+INSERT INTO
+    incomecategory
+VALUES
+    (14, 'Self-improvement');
+
+INSERT INTO
+    incomecategory
+VALUES
+    (15, 'Family');
+
+INSERT INTO
+    incomecategory
+VALUES
+    (16, 'Health');
+
+INSERT INTO
+    incomecategory
+VALUES
+    (17, 'Other Income');
+
+INSERT INTO
+    incomecategory
+VALUES
+    (18, 'Other Expense');

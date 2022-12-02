@@ -9,6 +9,7 @@ import {
   Image,
   SafeAreaView,
 } from "react-native";
+import { NativeBaseProvider, Heading, Spinner, HStack } from "native-base";
 
 import Footer from "../../components/Footer";
 import Greeter from "./components/greeter";
@@ -57,92 +58,113 @@ export default function Home({ navigation }) {
     getName();
   }, []);
 
-  return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar translucent backgroundColor="transparent" />
-
-      {/* <Header /> */}
-      <LinearGradient
-        colors={["#7B61FF", "#30A8DF"]}
-        style={styles.linearGradient}
-      >
-        <AppBar />
-        <Greeter user={name} />
-      </LinearGradient>
-      <TotalBalance userBalance={totalBalance} />
-      <View
-        style={{
-          position: "absolute",
-          bottom: 120,
-          justifyContent: "center",
-          width: Dimensions.get("window").width * 1,
-        }}
-      >
+  if (name === "" || totalBalance === "") {
+    return (
+      <NativeBaseProvider>
         <View
           style={{
-            flexDirection: "row",
+            height: Dimensions.get("screen").height,
             justifyContent: "center",
-            marginHorizontal: 2,
-            width: Dimensions.get("window").width * 1,
-            alignSelf: "center",
+            alignItems: "center",
           }}
         >
-          <LinearGradient
-            start={{ x: 0, y: 0.2 }}
-            end={{ x: 1, y: 0.5 }}
-            colors={["#B52FF8", "#F407FE"]}
-            style={{
-              fontSize: "md",
-              fontWeight: "medium",
-              color: "warmGray.50",
-              textAlign: "center",
-              marginHorizontal: 30,
-              padding: 20,
-              borderRadius: 20,
-              height: 100,
-              width: 150,
-              justifyContent: "center",
-            }}
-          >
-            <Pressable>
-              <Text
-                style={{
-                  fontSize: 15,
-                  color: "#fff",
-                  fontWeight: "bold",
-                  alignSelf: "center",
-                }}
-              >
-                Check History
-              </Text>
-            </Pressable>
-          </LinearGradient>
-          <LinearGradient
-            start={{ x: 0, y: 0.2 }}
-            end={{ x: 1, y: 0.5 }}
-            colors={["#5970FF", "#40CEF2"]}
-            style={{
-              fontSize: "md",
-              fontWeight: "medium",
-              color: "warmGray.50",
-              textAlign: "center",
-              marginHorizontal: 30,
-              padding: 20,
-              borderRadius: 20,
-              height: 100,
-              width: 150,
-            }}
-          >
-            <Text style={{ fontSize: 15, color: "#fff", fontWeight: "900" }}>
-              Income
-            </Text>
-            <Text style={{ fontWeight: "bold", fontSize: 15, color: "#fff" }}>
-              Rp
-            </Text>
-          </LinearGradient>
+          <HStack space={2} justifyContent="center">
+            <Spinner accessibilityLabel="Loading posts" color="#7B61FF" />
+            <Heading color="#7B61FF" fontSize="md">
+              Loading
+            </Heading>
+          </HStack>
         </View>
-      </View>
-      <Footer navigation={navigation} selected={0} />
-    </SafeAreaView>
-  );
+      </NativeBaseProvider>
+    );
+  } else {
+    return (
+      <SafeAreaView style={styles.container}>
+        <StatusBar translucent backgroundColor="transparent" />
+
+        {/* <Header /> */}
+        <LinearGradient
+          colors={["#7B61FF", "#30A8DF"]}
+          style={styles.linearGradient}
+        >
+          <AppBar />
+          <Greeter user={name} />
+        </LinearGradient>
+        <TotalBalance userBalance={totalBalance} />
+        <View
+          style={{
+            position: "absolute",
+            bottom: 120,
+            justifyContent: "center",
+            width: Dimensions.get("window").width * 1,
+          }}
+        >
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "center",
+              marginHorizontal: 2,
+              width: Dimensions.get("window").width * 1,
+              alignSelf: "center",
+            }}
+          >
+            <LinearGradient
+              start={{ x: 0, y: 0.2 }}
+              end={{ x: 1, y: 0.5 }}
+              colors={["#B52FF8", "#F407FE"]}
+              style={{
+                fontSize: "md",
+                fontWeight: "medium",
+                color: "warmGray.50",
+                textAlign: "center",
+                marginHorizontal: 30,
+                padding: 20,
+                borderRadius: 20,
+                height: 100,
+                width: 150,
+                justifyContent: "center",
+              }}
+            >
+              <Pressable>
+                <Text
+                  style={{
+                    fontSize: 15,
+                    color: "#fff",
+                    fontWeight: "bold",
+                    alignSelf: "center",
+                  }}
+                >
+                  Check History
+                </Text>
+              </Pressable>
+            </LinearGradient>
+            <LinearGradient
+              start={{ x: 0, y: 0.2 }}
+              end={{ x: 1, y: 0.5 }}
+              colors={["#5970FF", "#40CEF2"]}
+              style={{
+                fontSize: "md",
+                fontWeight: "medium",
+                color: "warmGray.50",
+                textAlign: "center",
+                marginHorizontal: 30,
+                padding: 20,
+                borderRadius: 20,
+                height: 100,
+                width: 150,
+              }}
+            >
+              <Text style={{ fontSize: 15, color: "#fff", fontWeight: "900" }}>
+                Income
+              </Text>
+              <Text style={{ fontWeight: "bold", fontSize: 15, color: "#fff" }}>
+                Rp
+              </Text>
+            </LinearGradient>
+          </View>
+        </View>
+        <Footer navigation={navigation} selected={0} />
+      </SafeAreaView>
+    );
+  }
 }
