@@ -1,10 +1,9 @@
-import { View, Text } from "react-native";
+import { Text } from "react-native";
 import React, { useState } from "react";
 import WavyHeader from "../../components/WavyHeader";
 import { StyleSheet, Dimensions } from "react-native";
 import client from "../../API/client";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import SignUpScreen from "./SignUpScreen";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   Center,
   Box,
@@ -20,8 +19,8 @@ import {
 
 const SignInScreen = ({ navigation }) => {
   const [signInData, setSignInData] = useState({
-    email: "",
-    password: "",
+    email: "aidan",
+    password: "aidan",
   });
 
   const signIn = async () => {
@@ -39,9 +38,12 @@ const SignInScreen = ({ navigation }) => {
         // }
         // console.log(JSON.stringify(response.data));
         if (response.data.message === "Login successful") {
-          await AsyncStorage.setItem("id", JSON.stringify(response.data.idUser));
+          await AsyncStorage.setItem(
+            "id",
+            JSON.stringify(response.data.idUser)
+          );
           // await AsyncStorage.setItem("wallet", JSON.stringify(response.data.wallet));
-          // console.log(await AsyncStorage.getItem("wallet"));
+          console.log(await AsyncStorage.getItem("wallet"));
           navigation.navigate("Home");
           console.log("masuk");
         } else {
@@ -55,7 +57,6 @@ const SignInScreen = ({ navigation }) => {
         console.log("masuk catch login");
       });
   };
-
 
   return (
     <NativeBaseProvider>

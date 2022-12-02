@@ -1,0 +1,18 @@
+INSERT INTO expensecategory VALUES (default,'Entertainment');
+INSERT INTO expensecategory VALUES (default,'Food/Drink');
+INSERT INTO expensecategory VALUES (default,'Electronics');
+INSERT INTO expensecategory VALUES (default,'Daily Needs');
+INSERT INTO expensecategory VALUES (default,'Fashion');
+INSERT INTO expensecategory VALUES (default,'Shopping');
+INSERT INTO expensecategory VALUES (default,'Bills');
+INSERT INTO expensecategory VALUES (default,'Gifts');
+INSERT INTO expensecategory VALUES (default,'Salary');
+INSERT INTO expensecategory VALUES (default,'Transfer');
+INSERT INTO expensecategory VALUES (default,'Business');
+INSERT INTO expensecategory VALUES (default,'Investment');
+INSERT INTO expensecategory VALUES (default,'Education');
+INSERT INTO expensecategory VALUES (default,'Self-improvement');
+INSERT INTO expensecategory VALUES (default,'Family');
+INSERT INTO expensecategory VALUES (default,'Health');
+INSERT INTO expensecategory VALUES (default,'Other Income');
+INSERT INTO expensecategory VALUES (default,'Other Expense');

@@ -1,9 +1,7 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { LogBox } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
 import OnboardingScreen from "./src/screens/OnboardingScreen/OnboardingScreen";
 import * as Font from "expo-font";
 import Home from "./src/screens/HomeScreen/Home";
@@ -37,6 +35,8 @@ let customFonts = {
   InterRegular: require("./assets/fonts/Inter-Regular.ttf"),
   InterLight: require("./assets/fonts/Inter-Light.ttf"),
 };
+
+LogBox.ignoreLogs(["EventEmitter.removeListener"]);
 
 export default class App extends React.Component {
   state = {
