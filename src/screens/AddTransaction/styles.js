@@ -19,15 +19,17 @@ const styles = StyleSheet.create({
   formContainer: {
     alignItems: "center",
     justifyContent: "center",
-    height: Dimensions.get("window").height * 0.5,
+    // height: Dimensions.get("window").height * 0.5,
+    height: "70%",
     position: "relative",
+    alignItems: "center",
     bottom: 0,
     marginVertical: 20,
   },
   inputForm: {
     width: Dimensions.get("window").width * 0.8,
     maxWidth: Dimensions.get("window").width * 0.8,
-    height: Dimensions.get("window").height * 0.5,
+    height: "100%",
     borderRadius: 25,
     padding: 25,
     backgroundColor: "#F2F0F0",
@@ -39,7 +41,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-
     backgroundColor: "#fff",
     borderColor: "blue",
   },

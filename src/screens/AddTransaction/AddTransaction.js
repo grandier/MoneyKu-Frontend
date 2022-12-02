@@ -31,38 +31,54 @@ import {
   HStack,
   Spinner,
   Heading,
+  Stack,
 } from "native-base";
 import client from "../../API/client";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 LogBox.ignoreLogs(["EventEmitter.removeListener"]);
 
 const AddTransaction = ({ navigation }) => {
+  const dateToday = new Date();
+
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  async function handleConfirm(date) {
+    console.log("A date has been picked: ", date);
+    setTransaction({
+      ...transaction,
+      transactionDate: date.toISOString().split("T")[0],
+    });
+    hideDatePicker();
+  }
+
   const transactionDataFormat = {
     description: "",
     amount: 0,
-    wallet: "",
+    walletId: 0,
     category: "",
-    transactionType: "",
+    transactionType: "Expense",
+    transactionDate: dateToday.toISOString().split("T")[0],
   };
 
   const [checked, setChecked] = useState("first");
   const [transaction, setTransaction] = useState(transactionDataFormat);
   const [wallets, setWallets] = useState([]);
-
-  // const walletsFixed = ["Mandiri", "BCA", "OVO", "Gopay"]; // ini nanti ganti jadi API call  getWallets
-  const walletsFixed = [
-    { idwallet: 1, namewallet: "ovo", balancewallet: 110000 },
-    { idwallet: 4, namewallet: "gopay", balancewallet: 110000 },
-    { idwallet: 6, namewallet: "undefined", balancewallet: 100000 },
-    { idwallet: 7, namewallet: "undefined", balancewallet: 500000 },
-    { idwallet: 8, namewallet: "Oy", balancewallet: 123456 },
-  ]; // ini nanti ganti jadi API call  getWallets
+  // const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     const getWallets = async () => {
       const walletsFromLocal = await AsyncStorage.getItem("wallet");
       setWallets(JSON.parse(walletsFromLocal));
     };
+    const getCategories = async () => {};
     getWallets().catch(console.error);
   }, []);
 
@@ -86,9 +102,23 @@ const AddTransaction = ({ navigation }) => {
     "Other",
   ];
 
-  const postTransaction = async () => {
+  const createExpense = async () => {
     client
-      .post("/login", {
+      .post("/createExpense", {
+        amount: signInData.email,
+        transactionDate: transaction.da,
+        idUser: await AsyncStorage.getItem("id"),
+        expenseCategory: signInData.email,
+        idWallet: signInData.password,
+      })
+      .then(function (response) {})
+      .catch(function (error) {
+        console.error(error);
+      });
+  };
+  const createIncome = async () => {
+    client
+      .post("/createIncome", {
         email: signInData.email,
         password: signInData.password,
       })
@@ -96,6 +126,14 @@ const AddTransaction = ({ navigation }) => {
       .catch(function (error) {
         console.error(error);
       });
+  };
+
+  const postTransaction = async () => {
+    if (transaction.transactionType === "Expense") {
+      createExpense().catch(console.error);
+    } else if (transaction.transactionType === "Income") {
+      createIncome().catch(console.error);
+    }
   };
 
   if (wallets === undefined) {
@@ -135,7 +173,7 @@ const AddTransaction = ({ navigation }) => {
 
                 <Input
                   variant="outline"
-                  placeholder="50000"
+                  placeholder="Rp50,000"
                   size="sm"
                   keyboardType="numeric"
                   w="3/4"
@@ -165,8 +203,14 @@ const AddTransaction = ({ navigation }) => {
                     endIcon: <CheckIcon size="3" />,
                   }}
                   mt={1}
-                  onValueChange={(itemValue) => {
-                    setTransaction({ ...transaction, wallet: itemValue });
+                  onValueChange={async (itemValue) => {
+                    const walletArray = JSON.parse(
+                      await AsyncStorage.getItem("wallet")
+                    );
+                    const chosenWallet = walletArray.find(
+                      (wallet) => wallet.namewallet === itemValue
+                    );
+                    setTransaction({ ...transaction, wallet: chosenWallet.id });
                   }}
                   size="sm"
                   h="3/4"
@@ -213,6 +257,35 @@ const AddTransaction = ({ navigation }) => {
                     return <Select.Item label={category} value={id} key={id} />;
                   })}
                 </Select>
+              </View>
+
+              {/* input date */}
+              <View style={styles.inputSection}>
+                <MaterialIcons
+                  style={styles.searchIcon}
+                  name="date-range"
+                  size={25}
+                  color="#000"
+                />
+
+                <Text
+                  style={{
+                    textAlignVertical: "center",
+                    width: 100,
+                    left: 10,
+                  }}
+                >
+                  {transaction.transactionDate}
+                  {/* {transaction.transactionDate} */}
+                </Text>
+                <Button
+                  title="Pick Start Date"
+                  variant={"outline"}
+                  onPress={showDatePicker}
+                  style={{ width: 100 }}
+                >
+                  Pick Date
+                </Button>
               </View>
 
               {/* input radio */}
@@ -265,6 +338,12 @@ const AddTransaction = ({ navigation }) => {
                   }}
                 />
               </View>
+              <DateTimePickerModal
+                isVisible={isDatePickerVisible}
+                mode="date"
+                onConfirm={handleConfirm}
+                onCancel={hideDatePicker}
+              />
               <View style={styles.inputButton}>
                 <Button onPress={() => console.log(transaction)}>Add</Button>
               </View>
