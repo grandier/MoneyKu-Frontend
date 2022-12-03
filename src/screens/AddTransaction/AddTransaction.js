@@ -63,7 +63,7 @@ const AddTransaction = ({ navigation }) => {
     description: "",
     amount: 0,
     walletId: 0,
-    category: "",
+    transactionCategory: "",
     transactionType: "Expense",
     transactionDate: dateToday.toISOString().split("T")[0],
   };
@@ -71,47 +71,39 @@ const AddTransaction = ({ navigation }) => {
   const [checked, setChecked] = useState("first");
   const [transaction, setTransaction] = useState(transactionDataFormat);
   const [wallets, setWallets] = useState([]);
-  // const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     const getWallets = async () => {
       const walletsFromLocal = await AsyncStorage.getItem("wallet");
       setWallets(JSON.parse(walletsFromLocal));
     };
-    const getCategories = async () => {};
+    const getCategories = async () => {
+      client
+        .get("/getCategory")
+        .then(function (response) {
+          setCategories(response.data.queryResult);
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+    };
     getWallets().catch(console.error);
+    getCategories();
   }, []);
-
-  const categories = [
-    "Entertainment",
-    "Food/Drink",
-    "Electronics",
-    "Daily Needs",
-    "Fashion",
-    "Shopping",
-    "Bills",
-    "Gifts",
-    "Salary",
-    "Transfer",
-    "Business",
-    "Investment",
-    "Education",
-    "Self-improvement",
-    "Family",
-    "Health",
-    "Other",
-  ];
 
   const createExpense = async () => {
     client
       .post("/createExpense", {
-        amount: signInData.email,
-        transactionDate: transaction.da,
+        amount: transaction.amount,
+        transactionDate: transaction.transactionDate,
         idUser: await AsyncStorage.getItem("id"),
-        expenseCategory: signInData.email,
-        idWallet: signInData.password,
+        expenseCategory: transaction.category,
+        idWallet: transaction.walletId,
       })
-      .then(function (response) {})
+      .then(function (response) {
+        console.log(response.data);
+      })
       .catch(function (error) {
         console.error(error);
       });
@@ -119,10 +111,16 @@ const AddTransaction = ({ navigation }) => {
   const createIncome = async () => {
     client
       .post("/createIncome", {
-        email: signInData.email,
-        password: signInData.password,
+        amount: transaction.amount,
+        transactionDate: transaction.transactionDate,
+        idUser: await AsyncStorage.getItem("id"),
+        category: transaction.transactionCategory,
+        description: transaction.description,
+        idWallet: transaction.walletId,
       })
-      .then(function (response) {})
+      .then(function (response) {
+        console.log(response.data);
+      })
       .catch(function (error) {
         console.error(error);
       });
@@ -136,7 +134,7 @@ const AddTransaction = ({ navigation }) => {
     }
   };
 
-  if (wallets === undefined) {
+  if (wallets === undefined || categories.length === 0) {
     return (
       <NativeBaseProvider>
         <View
@@ -194,7 +192,7 @@ const AddTransaction = ({ navigation }) => {
                 />
 
                 <Select
-                  selectedValue={transaction.wallet}
+                  selectedValue={transaction.walletId}
                   minWidth="200"
                   accessibilityLabel="Choose Wallet"
                   placeholder="Choose Wallet"
@@ -207,10 +205,16 @@ const AddTransaction = ({ navigation }) => {
                     const walletArray = JSON.parse(
                       await AsyncStorage.getItem("wallet")
                     );
+                    console.log("ITEM VALUE: ", itemValue);
+                    console.log("WALLET ARRAY: ", walletArray);
                     const chosenWallet = walletArray.find(
-                      (wallet) => wallet.namewallet === itemValue
-                    );
-                    setTransaction({ ...transaction, wallet: chosenWallet.id });
+                      (x) => x.idwallet === itemValue
+                    ).id;
+                    console.log("CHOSEN WALLET: ", chosenWallet);
+                    setTransaction({
+                      ...transaction,
+                      walletId: chosenWallet,
+                    });
                   }}
                   size="sm"
                   h="3/4"
@@ -238,7 +242,7 @@ const AddTransaction = ({ navigation }) => {
                 />
 
                 <Select
-                  selectedValue={transaction.category}
+                  selectedValue={transaction.transactionCategory}
                   minWidth="200"
                   accessibilityLabel="Choose Category"
                   placeholder="Choose Category"
@@ -248,13 +252,22 @@ const AddTransaction = ({ navigation }) => {
                   }}
                   mt={1}
                   onValueChange={(itemValue) => {
-                    setTransaction({ ...transaction, category: itemValue });
+                    setTransaction({
+                      ...transaction,
+                      transactionCategory: itemValue,
+                    });
                   }}
                   size="sm"
                   h="3/4"
                 >
-                  {categories.map((category, id) => {
-                    return <Select.Item label={category} value={id} key={id} />;
+                  {categories.map((categoryObj) => {
+                    return (
+                      <Select.Item
+                        label={categoryObj.category}
+                        value={categoryObj.id}
+                        key={categoryObj.id}
+                      />
+                    );
                   })}
                 </Select>
               </View>
