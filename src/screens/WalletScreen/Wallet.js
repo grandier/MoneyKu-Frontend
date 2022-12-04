@@ -72,12 +72,13 @@ const Wallet = ({ navigation }) => {
         },
       })
       .then(async function (response) {
-        
         await AsyncStorage.setItem(
           "wallet",
           JSON.stringify(response.data.wallet)
         );
+
         setWalletFetchData(JSON.parse(await AsyncStorage.getItem("wallet")));
+        // console.log(walletsFetchData);
       })
       .catch(function (error) {
         console.error(error);
@@ -85,9 +86,31 @@ const Wallet = ({ navigation }) => {
       });
   };
 
-
   useEffect(() => {
-    
+    console.log("USE EFFECT DI AWAL");
+    const udpateWalletLocalStorage = async () => {
+      const id = await AsyncStorage.getItem("id");
+
+      client
+        .get("/getAccountDetail", {
+          params: {
+            idUser: id,
+          },
+        })
+        .then(async function (response) {
+          await AsyncStorage.setItem(
+            "wallet",
+            JSON.stringify(response.data.wallet)
+          );
+
+          setWalletFetchData(JSON.parse(await AsyncStorage.getItem("wallet")));
+          // console.log(walletsFetchData);
+        })
+        .catch(function (error) {
+          console.error(error);
+          console.log("masuk catch");
+        });
+    };
     udpateWalletLocalStorage();
   }, []);
 
@@ -141,6 +164,7 @@ const Wallet = ({ navigation }) => {
                     pr={["0", "5"]}
                     py="4"
                     alignItems={"center"}
+                    key={walletsFetchData.idwallet}
                   >
                     <HStack space={[2, 3]} paddingX={2}>
                       <VStack justifyContent={"center"}>
