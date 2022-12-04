@@ -62,12 +62,55 @@ const Wallet = ({ navigation }) => {
       });
   };
 
+  const udpateWalletLocalStorage = async () => {
+    const id = await AsyncStorage.getItem("id");
+
+    client
+      .get("/getAccountDetail", {
+        params: {
+          idUser: id,
+        },
+      })
+      .then(async function (response) {
+        
+        await AsyncStorage.setItem(
+          "wallet",
+          JSON.stringify(response.data.wallet)
+        );
+        setWalletFetchData(JSON.parse(await AsyncStorage.getItem("wallet")));
+      })
+      .catch(function (error) {
+        console.error(error);
+        console.log("masuk catch");
+      });
+  };
+
+
   useEffect(() => {
-    getWallet();
+    
+    udpateWalletLocalStorage();
   }, []);
 
   const getWallet = async () => {
     setWalletFetchData(JSON.parse(await AsyncStorage.getItem("wallet")));
+  };
+
+  const getWalletfromAPI = async () => {
+    const id = await AsyncStorage.getItem("id");
+    client
+      .get("/getWallet", {
+        params: {
+          idUser: id,
+        },
+      })
+      .then(function (response) {
+        console.log(response.status);
+        setWalletFetchData(response.data);
+      })
+      .catch(function (error) {
+        console.error(error);
+        console.log("masuk catch");
+      });
   };
 
   if (!fontsLoaded) {

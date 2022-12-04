@@ -98,7 +98,8 @@ const AddTransaction = ({ navigation }) => {
         amount: transaction.amount,
         transactionDate: transaction.transactionDate,
         idUser: await AsyncStorage.getItem("id"),
-        expenseCategory: transaction.category,
+        category: transaction.transactionCategory,
+        description: transaction.description,
         idWallet: transaction.walletId,
       })
       .then(function (response) {
@@ -202,18 +203,9 @@ const AddTransaction = ({ navigation }) => {
                   }}
                   mt={1}
                   onValueChange={async (itemValue) => {
-                    const walletArray = JSON.parse(
-                      await AsyncStorage.getItem("wallet")
-                    );
-                    console.log("ITEM VALUE: ", itemValue);
-                    console.log("WALLET ARRAY: ", walletArray);
-                    const chosenWallet = walletArray.find(
-                      (x) => x.idwallet === itemValue
-                    ).id;
-                    console.log("CHOSEN WALLET: ", chosenWallet);
                     setTransaction({
                       ...transaction,
-                      walletId: chosenWallet,
+                      walletId: itemValue,
                     });
                   }}
                   size="sm"
@@ -224,7 +216,7 @@ const AddTransaction = ({ navigation }) => {
                       return (
                         <Select.Item
                           label={wallet.namewallet}
-                          value={id}
+                          value={wallet.idwallet}
                           key={id}
                         />
                       );
@@ -307,7 +299,7 @@ const AddTransaction = ({ navigation }) => {
                   color="purple"
                   value="first"
                   status={checked === "first" ? "checked" : "unchecked"}
-                  onPress={() => {
+                  onPress ={() => {
                     setTransaction({
                       ...transaction,
                       transactionType: "Expense",
@@ -358,7 +350,7 @@ const AddTransaction = ({ navigation }) => {
                 onCancel={hideDatePicker}
               />
               <View style={styles.inputButton}>
-                <Button onPress={() => console.log(transaction)}>Add</Button>
+                <Button onPress={ postTransaction }>Add</Button>
               </View>
             </View>
           </View>
