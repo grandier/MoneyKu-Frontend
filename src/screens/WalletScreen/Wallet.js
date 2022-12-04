@@ -8,6 +8,8 @@ import {
   Input,
   FlatList,
   HStack,
+  Heading,
+  Spinner,
   VStack,
   Spacer,
   Text,
@@ -19,6 +21,7 @@ import Header from "../../components/Header";
 import { useFonts } from "expo-font";
 import client from "../../API/client";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect } from "@react-navigation/native";
 
 //@ts-nocheck
 const Wallet = ({ navigation }) => {
@@ -61,58 +64,41 @@ const Wallet = ({ navigation }) => {
         console.log("masuk catch");
       });
   };
+  const unsubscribe = navigation.addListener("didFocus", () => {
+    console.log("focussed");
+  });
 
-  const udpateWalletLocalStorage = async () => {
-    const id = await AsyncStorage.getItem("id");
+  useFocusEffect(
+    React.useCallback(() => {
+      async function udpateWalletLocalStorage() {
+        const id = await AsyncStorage.getItem("id");
 
-    client
-      .get("/getAccountDetail", {
-        params: {
-          idUser: id,
-        },
-      })
-      .then(async function (response) {
-        await AsyncStorage.setItem(
-          "wallet",
-          JSON.stringify(response.data.wallet)
-        );
+        client
+          .get("/getAccountDetail", {
+            params: {
+              idUser: id,
+            },
+          })
+          .then(async function (response) {
+            await AsyncStorage.setItem(
+              "wallet",
+              JSON.stringify(response.data.wallet)
+            );
 
-        setWalletFetchData(JSON.parse(await AsyncStorage.getItem("wallet")));
-        // console.log(walletsFetchData);
-      })
-      .catch(function (error) {
-        console.error(error);
-        console.log("masuk catch");
-      });
-  };
-
-  useEffect(() => {
-    console.log("USE EFFECT DI AWAL");
-    const udpateWalletLocalStorage = async () => {
-      const id = await AsyncStorage.getItem("id");
-
-      client
-        .get("/getAccountDetail", {
-          params: {
-            idUser: id,
-          },
-        })
-        .then(async function (response) {
-          await AsyncStorage.setItem(
-            "wallet",
-            JSON.stringify(response.data.wallet)
-          );
-
-          setWalletFetchData(JSON.parse(await AsyncStorage.getItem("wallet")));
-          // console.log(walletsFetchData);
-        })
-        .catch(function (error) {
-          console.error(error);
-          console.log("masuk catch");
-        });
-    };
-    udpateWalletLocalStorage();
-  }, []);
+            setWalletFetchData(
+              JSON.parse(await AsyncStorage.getItem("wallet"))
+            );
+            // console.log(walletsFetchData);
+          })
+          .catch(function (error) {
+            console.error(error);
+            console.log("masuk catch");
+          });
+      }
+      udpateWalletLocalStorage();
+      return () => unsubscribe();
+    }, [])
+  );
 
   const getWallet = async () => {
     setWalletFetchData(JSON.parse(await AsyncStorage.getItem("wallet")));
@@ -136,8 +122,25 @@ const Wallet = ({ navigation }) => {
       });
   };
 
-  if (!fontsLoaded) {
-    return null;
+  if (!fontsLoaded || walletsFetchData.length == 0) {
+    return (
+      <NativeBaseProvider>
+        <View
+          style={{
+            height: Dimensions.get("screen").height,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <HStack space={2} justifyContent="center">
+            <Spinner accessibilityLabel="Loading posts" color="#7B61FF" />
+            <Heading color="#7B61FF" fontSize="md">
+              Loading
+            </Heading>
+          </HStack>
+        </View>
+      </NativeBaseProvider>
+    );
   }
 
   return (
