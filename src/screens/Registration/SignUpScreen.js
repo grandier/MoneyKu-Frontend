@@ -35,8 +35,7 @@ const SignUpScreen = ({ navigation }) => {
         console.log(response.status);
         if (response.data.message == "User Created") {
           navigation.navigate("Signin");
-        }
-        else{
+        } else {
           setSignUpData.name = "";
           setSignUpData.email = "";
           setSignUpData.password = "";

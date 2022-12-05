@@ -281,7 +281,6 @@ const AddTransaction = ({ navigation }) => {
                   }}
                 >
                   {transaction.transactionDate}
-                  {/* {transaction.transactionDate} */}
                 </Text>
                 <Button
                   title="Pick Start Date"
@@ -299,7 +298,7 @@ const AddTransaction = ({ navigation }) => {
                   color="purple"
                   value="first"
                   status={checked === "first" ? "checked" : "unchecked"}
-                  onPress ={() => {
+                  onPress={() => {
                     setTransaction({
                       ...transaction,
                       transactionType: "Expense",
@@ -350,7 +349,7 @@ const AddTransaction = ({ navigation }) => {
                 onCancel={hideDatePicker}
               />
               <View style={styles.inputButton}>
-                <Button onPress={ postTransaction }>Add</Button>
+                <Button onPress={postTransaction}>Add</Button>
               </View>
             </View>
           </View>

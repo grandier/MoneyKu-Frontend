@@ -16,7 +16,7 @@ import Wallet from "./src/screens/WalletScreen/Wallet";
 import UserPage from "./src/screens/UserProfile/UserPage";
 import TransactionHistory from "./src/screens/TransactionHistory/TransactionHistory";
 import DatePicker from "./src/screens/TransactionHistory/components/FilterForm";
-import FilteredList from "./src/screens/TransactionHistory/components/FilteredList";
+// import FilteredList from "./src/screens/TransactionHistory/components/FilteredList";
 
 const Stack = createStackNavigator();
 
@@ -74,7 +74,6 @@ export default class App extends React.Component {
           <Stack.Screen name="Welcome" component={Welcome} />
           <Stack.Screen name="Wallet" component={Wallet} />
           <Stack.Screen name="DatePicker" component={DatePicker} />
-          <Stack.Screen name="FilteredList" component={FilteredList} />
 
           <Stack.Screen
             name="TransactionHistory"

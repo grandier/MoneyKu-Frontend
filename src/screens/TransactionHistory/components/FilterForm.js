@@ -21,23 +21,22 @@ import { Ionicons } from "react-native-vector-icons";
 import resultData from "../resultData";
 import IncomeExpense from "./IncomeExpense";
 import client from "../../../API/client";
+import { useFocusEffect } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const FilterForm = ({ navigation }) => {
   const dateToday = new Date();
 
   const filterDataFormat = {
-    startDate: dateToday,
-    endDate: dateToday,
-    wallet: "",
+    startDate: dateToday.toISOString().split("T")[0],
+    endDate: dateToday.toISOString().split("T")[0],
+    walletId: 0,
   };
-  const wallets = ["All", "Mandiri", "BCA", "OVO", "Gopay"]; // ini nanti ganti jadi API call  getWallets
 
-  const walletsFetchData = [
-    { id: 1, name: "Mandiri", income: "1500000", expense: "1000000" },
-    { id: 2, name: "BCA", income: "3000000", expense: "2800000" },
-    { id: 3, name: "OVO", income: "1000000", expense: "900000" },
-    { id: 4, name: "Gopay", income: "1000000", expense: "600000" },
-  ];
+  const [filteredTransaction, setFilteredTransaction] = useState([]);
+
+  const [walletsFetchData, setWalletsFetchData] = useState([]);
+
   const [filterData, setFilterData] = useState(filterDataFormat);
 
   const [isDatePickerStartVisible, setDatePickerStartVisibility] =
@@ -61,31 +60,20 @@ const FilterForm = ({ navigation }) => {
 
   // fetch filtered transaction
   const getFilteredTransaction = async () => {
+    const id = await AsyncStorage.getItem("id");
     client
-      .get("/", {
-        filterData: filterData,
+      .get("/getExpenseByWallet", {
+        params: {
+          idUser: id,
+          dateBefore: filterData.startDate,
+          dateAfter: filterData.endDate,
+          idWallet: filterData.walletId,
+        },
       })
       .then(function (response) {
-        console.log(response.status);
-        console.log(response.data.message);
-        // setFilterData(hasil-response)
-      })
-      .catch(function (error) {
-        console.error(error);
-      });
-  };
-
-  // fetch all the wallets
-  const getWallets = async () => {
-    client
-      .get("/", {
-        // email: signInData.email,
-        // password: signInData.password,
-      })
-      .then(function (response) {
-        console.log(response.status);
-        console.log(response.data.message);
-        // setFilterData(hasil-response)
+        setFilteredTransaction(Object.values(response.data)[0]);
+        console.log(response.data);
+        console.log("FILTERED TRANSACTION: ", filteredTransaction);
       })
       .catch(function (error) {
         console.error(error);
@@ -93,24 +81,56 @@ const FilterForm = ({ navigation }) => {
   };
 
   useEffect(() => {
-    getWallets;
+    async function getWallet() {
+      const id = await AsyncStorage.getItem("id");
+
+      client
+        .get("/getAccountDetail", {
+          params: {
+            idUser: id,
+          },
+        })
+        .then(async function (response) {
+          setWalletsFetchData(response.data.wallet);
+          console.log(walletsFetchData);
+          // console.log(response.data.wallet);
+        })
+        .catch(function (error) {
+          console.error(error);
+          console.log("masuk catch getWallet");
+        });
+    }
+    getWallet();
     setShowFilter(true);
   }, []);
 
+  useEffect(() => {
+    console.log(filterData);
+  }, [filterData]);
+
   async function handleConfirmStart(date) {
     console.log("A start date has been picked: ", date);
-    setFilterData({ ...filterData, startDate: date });
+    setFilterData({
+      ...filterData,
+      startDate: date.toISOString().split("T")[0],
+    });
     hideDatePicker();
   }
   async function handleConfirmEnd(date) {
     console.log("A end date has been picked: ", date);
-    setFilterData({ ...filterData, endDate: date });
+    setFilterData({ ...filterData, endDate: date.toISOString().split("T")[0] });
     hideDatePicker();
   }
 
   const myListEmpty = () => {
     return (
-      <View style={{ alignItems: "center" }}>
+      <View
+        style={{
+          alignItems: "center",
+          justifyContent: "center",
+          marginTop: 150,
+        }}
+      >
         <Text style={styles.item}>No data found</Text>
       </View>
     );
@@ -149,7 +169,7 @@ const FilterForm = ({ navigation }) => {
                     Start Date
                   </Button>
                   <Text style={{ textAlignVertical: "center" }}>
-                    {filterData.startDate.toISOString().split("T")[0]}
+                    {filterData.startDate}
                   </Text>
                 </Stack>
                 <Stack
@@ -167,7 +187,7 @@ const FilterForm = ({ navigation }) => {
                     End Date
                   </Button>
                   <Text style={{ textAlignVertical: "center" }}>
-                    {filterData.endDate.toISOString().split("T")[0]}
+                    {filterData.endDate}
                   </Text>
                 </Stack>
                 <Stack
@@ -187,7 +207,7 @@ const FilterForm = ({ navigation }) => {
                     />
                     <View style={{ marginLeft: 100, maxHeight: 90 }}>
                       <Select
-                        selectedValue={filterData.wallet}
+                        selectedValue={filterData.walletId}
                         minWidth="170"
                         accessibilityLabel="Choose Wallet"
                         placeholder="Choose Wallet"
@@ -197,14 +217,20 @@ const FilterForm = ({ navigation }) => {
                         }}
                         mt={1}
                         onValueChange={(itemValue) => {
-                          setFilterData({ ...filterData, wallet: itemValue });
+                          console.log("ITEM VALUE: ", itemValue);
+                          setFilterData({ ...filterData, walletId: itemValue });
+                          console.log("FILTER DATA: ", filterData);
                         }}
                         size="sm"
                         h="5/6"
                       >
-                        {wallets.map((wallet, id) => {
+                        {walletsFetchData.map((wallet, id) => {
                           return (
-                            <Select.Item label={wallet} value={id} key={id} />
+                            <Select.Item
+                              label={wallet.namewallet}
+                              value={wallet.idwallet}
+                              key={id}
+                            />
                           );
                         })}
                       </Select>
@@ -223,9 +249,9 @@ const FilterForm = ({ navigation }) => {
                       style={{ width: 200 }}
                       size="md"
                       onPress={() => {
-                        console.log(filterData);
+                        // console.log(filterData);
                         setShowFilter(!showFilter);
-                        getFilteredTransaction;
+                        getFilteredTransaction();
                       }}
                       on
                     >
@@ -263,7 +289,7 @@ const FilterForm = ({ navigation }) => {
           <Box style={styles.filteredList}>
             <FlatList
               style={{}}
-              data={resultData}
+              data={filteredTransaction}
               scrollEnabled={true}
               ListEmptyComponent={myListEmpty}
               ListHeaderComponent={() => (
@@ -305,7 +331,7 @@ const FilterForm = ({ navigation }) => {
                         color="coolGray.800"
                         bold
                       >
-                        {item.productName}
+                        {item.description}
                       </Text>
                       <Text
                         color="coolGray.600"
@@ -313,7 +339,7 @@ const FilterForm = ({ navigation }) => {
                           color: "warmGray.200",
                         }}
                       >
-                        {item.price}
+                        {item.amount}
                       </Text>
                     </VStack>
                     <Spacer />
@@ -325,7 +351,7 @@ const FilterForm = ({ navigation }) => {
                       color="coolGray.800"
                       alignSelf="flex-start"
                     >
-                      {item.transactionType}
+                      {"expense"}
                     </Text>
                     <Text
                       fontSize="xs"
@@ -335,7 +361,7 @@ const FilterForm = ({ navigation }) => {
                       color="coolGray.800"
                       alignSelf="flex-start"
                     >
-                      {item.wallet}
+                      {item.name}
                     </Text>
                     <Text
                       fontSize="xs"
@@ -345,7 +371,7 @@ const FilterForm = ({ navigation }) => {
                       color="coolGray.800"
                       alignSelf="flex-start"
                     >
-                      {item.timeStamp}
+                      {item.transactiondate.substring(0, 10)}
                     </Text>
                   </HStack>
                 </Box>
