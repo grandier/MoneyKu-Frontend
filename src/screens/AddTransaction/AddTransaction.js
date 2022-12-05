@@ -35,6 +35,8 @@ import {
 } from "native-base";
 import client from "../../API/client";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import Lottie from 'lottie-react-native';
+import successanimation from "../../../assets/json/success.json";
 
 LogBox.ignoreLogs(["EventEmitter.removeListener"]);
 
@@ -103,7 +105,11 @@ const AddTransaction = ({ navigation }) => {
         idWallet: transaction.walletId,
       })
       .then(function (response) {
-        console.log(response.data);
+        if(response.data.message == "Error"){
+          navigation.navigate("FailedScreen");
+        }else{
+          navigation.navigate("SuccessScreen");
+        }
       })
       .catch(function (error) {
         console.error(error);
@@ -120,7 +126,11 @@ const AddTransaction = ({ navigation }) => {
         idWallet: transaction.walletId,
       })
       .then(function (response) {
-        console.log(response.data);
+        if(response.data.message == "Error"){
+          navigation.navigate("FailedScreen");
+        }else{
+          navigation.navigate("SuccessScreen");
+        }
       })
       .catch(function (error) {
         console.error(error);
