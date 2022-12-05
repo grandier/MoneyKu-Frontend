@@ -17,6 +17,8 @@ import UserPage from "./src/screens/UserProfile/UserPage";
 import TransactionHistory from "./src/screens/TransactionHistory/TransactionHistory";
 import DatePicker from "./src/screens/TransactionHistory/components/FilterForm";
 import FilteredList from "./src/screens/TransactionHistory/components/FilteredList";
+import SuccessScreen from "./src/screens/AnimationsScreen/SuccessScreen";
+import FailedScreen from "./src/screens/AnimationsScreen/FailedScreen";
 
 const Stack = createStackNavigator();
 
@@ -81,6 +83,8 @@ export default class App extends React.Component {
             component={TransactionHistory}
           />
           <Stack.Screen name="UserPage" component={UserPage} />
+          <Stack.Screen name="SuccessScreen" component={SuccessScreen}/>
+          <Stack.Screen name="FailedScreen" component={FailedScreen}/>
         </Stack.Navigator>
       </NavigationContainer>
     );
