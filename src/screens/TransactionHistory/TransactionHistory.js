@@ -5,7 +5,6 @@ import styles from "./styles";
 import React, { useState } from "react";
 import Header from "../../components/Header";
 import FilterForm from "./components/FilterForm";
-import FilteredList from "./components/FilteredList";
 import { useFonts } from "expo-font";
 
 const TransactionHistory = ({ navigation }) => {

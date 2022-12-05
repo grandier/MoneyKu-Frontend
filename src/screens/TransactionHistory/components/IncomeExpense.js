@@ -28,7 +28,7 @@ const IncomeExpense = ({ walletData }) => {
           Spending
         </Text>
         <Text style={{ fontWeight: "bold", fontSize: 15, color: "#fff" }}>
-          Rp {walletData[0].expense}
+          Rp {walletData[2].expense}
         </Text>
       </LinearGradient>
       <LinearGradient

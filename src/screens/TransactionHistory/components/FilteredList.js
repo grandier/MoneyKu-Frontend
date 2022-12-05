@@ -29,9 +29,9 @@ const FilteredList = ({ navigation }) => {
   return (
     <NativeBaseProvider>
       <View>
-        <View style={{ borderWidth: 2, minHeight: 100, marginTop: 20 }}>
+        {/* <View style={{ borderWidth: 2, minHeight: 100, marginTop: 20 }}>
           <IncomeExpense />
-        </View>
+        </View> */}
         <Box style={styles.filteredList}>
           <FlatList
             style={{}}
@@ -55,16 +55,7 @@ const FilteredList = ({ navigation }) => {
                   Change Filter
                 </Button>
               </View>
-            )} // Add the button component here!
-            // ListFooterComponent={() => (
-            //   <Button
-            //     onPress={() => {
-            //       console.log("Click");
-            //     }}
-            //   >
-            //     Click Me
-            //   </Button>
-            // )} // Add the button component here!
+            )}
             renderItem={({ item }) => (
               <Box
                 borderBottomWidth="1"
