@@ -6,11 +6,27 @@ import {
   View,
   Text,
 } from "native-base";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Dimensions } from "react-native";
 import { LineChart } from "react-native-chart-kit";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import client from "../../../API/client";
 
 const TotalBalance = ({ userBalance }) => {
+  const [recentTransaction, setRecentTranscation] = useState({
+    labels: null,
+    datasets: [
+      {
+        data: null,
+        color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
+        strokeWidth: 2, // optional
+      },
+    ],
+    legend: ["Rainy Days"],
+  });
+
+  const [recentTransactionData, setRecentTransactionData] = useState(null);
+
   const data = {
     labels: ["January", "February", "March", "April", "May", "June"],
     datasets: [
@@ -22,6 +38,42 @@ const TotalBalance = ({ userBalance }) => {
     ],
     legend: ["Rainy Days"], // optional
   };
+
+  async function getRecentTransaction() {
+    const id = await AsyncStorage.getItem("id");
+
+    client
+      .get("/getRecentTransaction", {
+        params: {
+          idUser: id,
+        },
+      })
+      .then(async function (response) {
+        console.log(
+          "response data amount",
+          Object.entries(response.data)[0][1].amount
+        );
+        // console.log(
+        //   "response data transactiondate",
+        //   response.data.transactiondate
+        // );
+        // setRecentTranscation({
+        //   ...recentTransaction,
+        //   labels: response.data.amount,
+        //   datasets: response.data.transactiondate.substring(0, 10),
+        // });
+        // setRecentTransactionData(response.data);
+        // console.log(Object.values(recentTransactionData));
+      })
+      .catch(function (error) {
+        console.error(error);
+        console.log("masuk catch getWallet");
+      });
+  }
+  useEffect(() => {
+    getRecentTransaction();
+    // console.log("Recent transaction: ", recentTransaction);
+  }, []);
   return (
     <NativeBaseProvider>
       <View alignItems={"center"}>

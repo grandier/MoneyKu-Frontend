@@ -62,7 +62,7 @@ const FilterForm = ({ navigation }) => {
   const getFilteredTransaction = async () => {
     const id = await AsyncStorage.getItem("id");
     client
-      .get("/getExpenseByWallet", {
+      .get("/getAllTransactionByWallet", {
         params: {
           idUser: id,
           dateBefore: filterData.startDate,
@@ -351,7 +351,7 @@ const FilterForm = ({ navigation }) => {
                       color="coolGray.800"
                       alignSelf="flex-start"
                     >
-                      {"expense"}
+                      {item.transactioncategory}
                     </Text>
                     <Text
                       fontSize="xs"

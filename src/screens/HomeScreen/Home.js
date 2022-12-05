@@ -37,9 +37,9 @@ export default function Home({ navigation }) {
         },
       })
       .then(async function (response) {
-        console.log(response.status);
-        console.log(response.data.name);
-        console.log(response.data.balance);
+        // console.log(response.status);
+        // console.log(response.data.name);
+        // console.log(response.data.balance);
         await AsyncStorage.setItem(
           "wallet",
           JSON.stringify(response.data.wallet)
