@@ -100,27 +100,27 @@ const Wallet = ({ navigation }) => {
     }, [])
   );
 
-  const getWallet = async () => {
-    setWalletFetchData(JSON.parse(await AsyncStorage.getItem("wallet")));
-  };
+  // const getWallet = async () => {
+  //   setWalletFetchData(JSON.parse(await AsyncStorage.getItem("wallet")));
+  // };
 
-  const getWalletfromAPI = async () => {
-    const id = await AsyncStorage.getItem("id");
-    client
-      .get("/getWallet", {
-        params: {
-          idUser: id,
-        },
-      })
-      .then(function (response) {
-        console.log(response.status);
-        setWalletFetchData(response.data);
-      })
-      .catch(function (error) {
-        console.error(error);
-        console.log("masuk catch");
-      });
-  };
+  // const getWalletfromAPI = async () => {
+  //   const id = await AsyncStorage.getItem("id");
+  //   client
+  //     .get("/getWallet", {
+  //       params: {
+  //         idUser: id,
+  //       },
+  //     })
+  //     .then(function (response) {
+  //       console.log(response.status);
+  //       setWalletFetchData(response.data);
+  //     })
+  //     .catch(function (error) {
+  //       console.error(error);
+  //       console.log("masuk catch");
+  //     });
+  // };
 
   if (!fontsLoaded || walletsFetchData.length == 0) {
     return (

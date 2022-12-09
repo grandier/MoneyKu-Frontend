@@ -35,7 +35,7 @@ import {
 } from "native-base";
 import client from "../../API/client";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import Lottie from 'lottie-react-native';
+import Lottie from "lottie-react-native";
 import successanimation from "../../../assets/json/success.json";
 
 LogBox.ignoreLogs(["EventEmitter.removeListener"]);
@@ -75,21 +75,21 @@ const AddTransaction = ({ navigation }) => {
   const [wallets, setWallets] = useState([]);
   const [categories, setCategories] = useState([]);
 
+  const getWallets = async () => {
+    const walletsFromLocal = await AsyncStorage.getItem("wallet");
+    setWallets(JSON.parse(walletsFromLocal));
+  };
+  const getCategories = async () => {
+    client
+      .get("/getCategory")
+      .then(function (response) {
+        setCategories(response.data.queryResult);
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+  };
   useEffect(() => {
-    const getWallets = async () => {
-      const walletsFromLocal = await AsyncStorage.getItem("wallet");
-      setWallets(JSON.parse(walletsFromLocal));
-    };
-    const getCategories = async () => {
-      client
-        .get("/getCategory")
-        .then(function (response) {
-          setCategories(response.data.queryResult);
-        })
-        .catch(function (error) {
-          console.error(error);
-        });
-    };
     getWallets().catch(console.error);
     getCategories();
   }, []);
@@ -105,9 +105,9 @@ const AddTransaction = ({ navigation }) => {
         idWallet: transaction.walletId,
       })
       .then(function (response) {
-        if(response.data.message == "Error"){
+        if (response.data.message == "Error") {
           navigation.navigate("FailedScreen");
-        }else{
+        } else {
           navigation.navigate("SuccessScreen");
         }
       })
@@ -126,9 +126,9 @@ const AddTransaction = ({ navigation }) => {
         idWallet: transaction.walletId,
       })
       .then(function (response) {
-        if(response.data.message == "Error"){
+        if (response.data.message == "Error") {
           navigation.navigate("FailedScreen");
-        }else{
+        } else {
           navigation.navigate("SuccessScreen");
         }
       })

@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from "react";
+import { React, useEffect, useState, useCallback } from "react";
 import {
   View,
   Text,
@@ -21,42 +21,52 @@ import AppBar from "../../components/AppBar";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 import client from "../../API/client";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function Home({ navigation }) {
   const [name, setName] = useState("");
   const [totalBalance, setTotalBalance] = useState("");
 
-  const getName = async () => {
-    const id = await AsyncStorage.getItem("id");
-    console.log(id);
+  // useEffect(() => {
+  //   getName();
+  // }, []);
+  const unsubscribe = navigation.addListener("didFocus", () => {
+    console.log("focussed");
+  });
 
-    client
-      .get("/getAccountDetail", {
-        params: {
-          idUser: id,
-        },
-      })
-      .then(async function (response) {
-        // console.log(response.status);
-        // console.log(response.data.name);
-        // console.log(response.data.balance);
-        await AsyncStorage.setItem(
-          "wallet",
-          JSON.stringify(response.data.wallet)
-        );
-        // console.log(await AsyncStorage.getItem("wallet"));
-        setName(response.data.name);
-        setTotalBalance(response.data.balance);
-      })
-      .catch(function (error) {
-        console.error(error);
-        console.log("masuk catch");
-      });
-  };
+  useFocusEffect(
+    useCallback(() => {
+      async function getName() {
+        const id = await AsyncStorage.getItem("id");
+        console.log(id);
 
-  useEffect(() => {
-    getName();
-  }, []);
+        client
+          .get("/getAccountDetail", {
+            params: {
+              idUser: id,
+            },
+          })
+          .then(async function (response) {
+            // console.log(response.status);
+            // console.log(response.data.name);
+            // console.log(response.data.balance);
+            await AsyncStorage.setItem(
+              "wallet",
+              JSON.stringify(response.data.wallet)
+            );
+            // console.log(await AsyncStorage.getItem("wallet"));
+            setName(response.data.name);
+            setTotalBalance(response.data.balance);
+          })
+          .catch(function (error) {
+            console.error(error);
+            console.log("masuk catch");
+          });
+      }
+      getName();
+      return () => unsubscribe();
+    }, [])
+  );
 
   if (name === "" || totalBalance === "") {
     return (
@@ -90,7 +100,7 @@ export default function Home({ navigation }) {
           <AppBar />
           <Greeter user={name} />
         </LinearGradient>
-        <TotalBalance userBalance={totalBalance} />
+        <TotalBalance userBalance={totalBalance} navigation={navigation} />
         <View
           style={{
             position: "absolute",
