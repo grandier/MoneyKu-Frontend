@@ -25,7 +25,9 @@ import { useFocusEffect } from "@react-navigation/native";
 
 export default function Home({ navigation }) {
   const [name, setName] = useState("");
-  const [totalBalance, setTotalBalance] = useState("");
+  const [totalIncome, setTotalIncome] = useState(0);
+  const [totalExpense, setTotalExpense] = useState(0);
+  const [totalBalance, setTotalBalance] = useState(0);
 
   // useEffect(() => {
   //   getName();
@@ -34,35 +36,75 @@ export default function Home({ navigation }) {
     console.log("focussed");
   });
 
+  async function getName() {
+    const id = await AsyncStorage.getItem("id");
+    console.log(id);
+
+    client
+      .get("/getAccountDetail", {
+        params: {
+          idUser: id,
+        },
+      })
+      .then(async function (response) {
+        // console.log(response.status);
+        // console.log(response.data.name);
+        // console.log(response.data.balance);
+        await AsyncStorage.setItem(
+          "wallet",
+          JSON.stringify(response.data.wallet)
+        );
+        // console.log(await AsyncStorage.getItem("wallet"));
+        setName(response.data.name);
+        setTotalBalance(response.data.balance);
+      })
+      .catch(function (error) {
+        console.error(error);
+        console.log("masuk catch");
+      });
+  }
+
+  async function getTotalIncome() {
+    const id = await AsyncStorage.getItem("id");
+
+    client
+      .get("getTotalIncome", {
+        params: {
+          iduser: id,
+        },
+      })
+      .then(async function (response) {
+        console.log("total income: ", response.data.queryResult[0].sum);
+        setTotalIncome(parseInt(response.data.queryResult[0].sum));
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+  }
+
+  async function getTotalExpense() {
+    const id = await AsyncStorage.getItem("id");
+
+    client
+      .get("getTotalExpense", {
+        params: {
+          iduser: id,
+        },
+      })
+      .then(async function (response) {
+        console.log("total expense: ", response.data.queryResult[0].sum);
+        setTotalExpense(parseInt(response.data.queryResult[0].sum));
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+  }
+
   useFocusEffect(
     useCallback(() => {
-      async function getName() {
-        const id = await AsyncStorage.getItem("id");
-        console.log(id);
-
-        client
-          .get("/getAccountDetail", {
-            params: {
-              idUser: id,
-            },
-          })
-          .then(async function (response) {
-            // console.log(response.status);
-            // console.log(response.data.name);
-            // console.log(response.data.balance);
-            await AsyncStorage.setItem(
-              "wallet",
-              JSON.stringify(response.data.wallet)
-            );
-            // console.log(await AsyncStorage.getItem("wallet"));
-            setName(response.data.name);
-            setTotalBalance(response.data.balance);
-          })
-          .catch(function (error) {
-            console.error(error);
-            console.log("masuk catch");
-          });
-      }
+      // getWallet();
+      getTotalExpense();
+      getTotalIncome();
       getName();
       return () => unsubscribe();
     }, [])
@@ -135,18 +177,12 @@ export default function Home({ navigation }) {
                 justifyContent: "center",
               }}
             >
-              <Pressable>
-                <Text
-                  style={{
-                    fontSize: 15,
-                    color: "#fff",
-                    fontWeight: "bold",
-                    alignSelf: "center",
-                  }}
-                >
-                  Check History
-                </Text>
-              </Pressable>
+              <Text style={{ fontSize: 12, color: "#fff", fontWeight: "900" }}>
+                Total Expense
+              </Text>
+              <Text style={{ fontWeight: "bold", fontSize: 14, color: "#fff" }}>
+                Rp {totalExpense.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}
+              </Text>
             </LinearGradient>
             <LinearGradient
               start={{ x: 0, y: 0.2 }}
@@ -162,13 +198,14 @@ export default function Home({ navigation }) {
                 borderRadius: 20,
                 height: 100,
                 width: 150,
+                justifyContent: "center",
               }}
             >
-              <Text style={{ fontSize: 15, color: "#fff", fontWeight: "900" }}>
-                Income
+              <Text style={{ fontSize: 12, color: "#fff", fontWeight: "900" }}>
+                Total Income
               </Text>
-              <Text style={{ fontWeight: "bold", fontSize: 15, color: "#fff" }}>
-                Rp
+              <Text style={{ fontWeight: "bold", fontSize: 14, color: "#fff" }}>
+                Rp {totalIncome.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}
               </Text>
             </LinearGradient>
           </View>

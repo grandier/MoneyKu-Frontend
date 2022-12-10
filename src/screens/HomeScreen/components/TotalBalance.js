@@ -55,11 +55,8 @@ const TotalBalance = ({ userBalance, navigation }) => {
           let splitDate = date.split("-");
           return `${splitDate[1]}-${splitDate[2].substring(0, 2)}`;
         });
-        console.log("amounts: ", amounts);
-        console.log("formatted dates: ", formattedDates);
 
         let amountKFormatted = amounts.map((x) => x / 1000);
-        console.log("formatted amounts: ", amountKFormatted);
 
         setRecentTranscation({
           labels: formattedDates.reverse(),

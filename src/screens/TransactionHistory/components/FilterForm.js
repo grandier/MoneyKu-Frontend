@@ -32,7 +32,8 @@ const FilterForm = ({ navigation }) => {
     endDate: dateToday.toISOString().split("T")[0],
     walletId: 0,
   };
-
+  const [income, setIncome] = useState(0);
+  const [expense, setExpense] = useState(0);
   const [filteredTransaction, setFilteredTransaction] = useState([]);
 
   const [walletsFetchData, setWalletsFetchData] = useState([]);
@@ -57,6 +58,52 @@ const FilterForm = ({ navigation }) => {
     setDatePickerStartVisibility(false);
     setDatePickerEndVisibility(false);
   };
+  async function getTotalIncomeByWallet() {
+    const id = await AsyncStorage.getItem("id");
+
+    client
+      .get("/getTotalIncomeByWallet", {
+        params: {
+          idwallet: filterData.walletId,
+          dateBefore: filterData.startDate,
+          dateAfter: filterData.endDate,
+        },
+      })
+      .then(async function (response) {
+        console.log(
+          "response get income by wallet: ",
+          response.data.queryResult[0].sum
+        );
+        setIncome(response.data.queryResult[0].sum);
+        // console.log(walletsFetchData);
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+  }
+  async function getTotalExpenseByWallet() {
+    const id = await AsyncStorage.getItem("id");
+
+    client
+      .get("/getTotalExpenseByWallet", {
+        params: {
+          idwallet: filterData.walletId,
+          dateBefore: filterData.startDate,
+          dateAfter: filterData.endDate,
+        },
+      })
+      .then(async function (response) {
+        console.log(
+          "response get expense by wallet: ",
+          response.data.queryResult[0].sum
+        );
+        setExpense(response.data.queryResult[0].sum);
+        // console.log(walletsFetchData);
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+  }
 
   // fetch filtered transaction
   const getFilteredTransaction = async () => {
@@ -73,33 +120,39 @@ const FilterForm = ({ navigation }) => {
       .then(function (response) {
         setFilteredTransaction(Object.values(response.data)[0]);
         console.log(response.data);
-        console.log("FILTERED TRANSACTION: ", filteredTransaction);
       })
       .catch(function (error) {
         console.error(error);
       });
   };
 
-  useEffect(() => {
-    async function getWallet() {
-      const id = await AsyncStorage.getItem("id");
+  async function getWallet() {
+    const id = await AsyncStorage.getItem("id");
 
-      client
-        .get("/getAccountDetail", {
-          params: {
-            idUser: id,
-          },
-        })
-        .then(async function (response) {
-          setWalletsFetchData(response.data.wallet);
-          console.log(walletsFetchData);
-          // console.log(response.data.wallet);
-        })
-        .catch(function (error) {
-          console.error(error);
-          console.log("masuk catch getWallet");
-        });
-    }
+    client
+      .get("/getWallet", {
+        params: {
+          idUser: id,
+        },
+      })
+      .then(async function (response) {
+        console.log("response get wallet: ", response.data);
+        if (response.data.length !== 0) {
+          await AsyncStorage.setItem("wallet", JSON.stringify(response.data));
+
+          setWalletsFetchData(JSON.parse(await AsyncStorage.getItem("wallet")));
+        } else if (response.data.length === 0) {
+          console.log("yah enol waletnya");
+        }
+        // console.log(walletsFetchData);
+      })
+      .catch(function (error) {
+        console.error(error);
+        console.log("masuk catch get wallet");
+      });
+  }
+
+  useEffect(() => {
     getWallet();
     setShowFilter(true);
   }, []);
@@ -217,19 +270,17 @@ const FilterForm = ({ navigation }) => {
                         }}
                         mt={1}
                         onValueChange={(itemValue) => {
-                          console.log("ITEM VALUE: ", itemValue);
                           setFilterData({ ...filterData, walletId: itemValue });
-                          console.log("FILTER DATA: ", filterData);
                         }}
                         size="sm"
                         h="5/6"
                       >
-                        {walletsFetchData.map((wallet, id) => {
+                        {walletsFetchData.map((wallet) => {
                           return (
                             <Select.Item
-                              label={wallet.namewallet}
-                              value={wallet.idwallet}
-                              key={id}
+                              label={wallet.name}
+                              value={wallet.id}
+                              key={wallet.id}
                             />
                           );
                         })}
@@ -252,6 +303,8 @@ const FilterForm = ({ navigation }) => {
                         // console.log(filterData);
                         setShowFilter(!showFilter);
                         getFilteredTransaction();
+                        getTotalIncomeByWallet();
+                        getTotalExpenseByWallet();
                       }}
                       on
                     >
@@ -284,7 +337,12 @@ const FilterForm = ({ navigation }) => {
               marginVertical: 10,
             }}
           >
-            <IncomeExpense walletData={walletsFetchData} />
+            <IncomeExpense
+              walletData={walletsFetchData}
+              filterData={filterData}
+              income={income}
+              expense={expense}
+            />
           </View>
           <Box style={styles.filteredList}>
             <FlatList
@@ -371,7 +429,9 @@ const FilterForm = ({ navigation }) => {
                       color="coolGray.800"
                       alignSelf="flex-start"
                     >
-                      {item.transactiondate.substring(0, 10)}
+                      {item.transactiondate.substring(0, 10)
+                        ? item.transactiondate.substring(0, 10)
+                        : dateToday}
                     </Text>
                   </HStack>
                 </Box>

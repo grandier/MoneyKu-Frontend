@@ -19,8 +19,8 @@ import {
 
 const SignInScreen = ({ navigation }) => {
   const [signInData, setSignInData] = useState({
-    email: "test",
-    password: "test",
+    email: "aidan",
+    password: "aidan",
   });
 
   const signIn = async () => {
@@ -124,6 +124,7 @@ const SignInScreen = ({ navigation }) => {
                   fontSize: "sm",
                 }}
                 onPress={() => navigation.navigate("Signup")}
+
                 // href=""
               >
                 Sign Up

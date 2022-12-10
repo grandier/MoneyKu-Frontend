@@ -75,10 +75,32 @@ const AddTransaction = ({ navigation }) => {
   const [wallets, setWallets] = useState([]);
   const [categories, setCategories] = useState([]);
 
-  const getWallets = async () => {
-    const walletsFromLocal = await AsyncStorage.getItem("wallet");
-    setWallets(JSON.parse(walletsFromLocal));
-  };
+  async function getWallets() {
+    const id = await AsyncStorage.getItem("id");
+
+    client
+      .get("/getWallet", {
+        params: {
+          idUser: id,
+        },
+      })
+      .then(async function (response) {
+        console.log("response get wallet: ", response.data);
+        if (response.data.length !== 0) {
+          await AsyncStorage.setItem("wallet", JSON.stringify(response.data));
+
+          setWallets(JSON.parse(await AsyncStorage.getItem("wallet")));
+        } else if (response.data.length === 0) {
+          console.log("yah enol waletnya");
+        }
+        // console.log(walletsFetchData);
+      })
+      .catch(function (error) {
+        console.error(error);
+        console.log("masuk catch get wallet");
+      });
+  }
+
   const getCategories = async () => {
     client
       .get("/getCategory")
@@ -93,6 +115,10 @@ const AddTransaction = ({ navigation }) => {
     getWallets().catch(console.error);
     getCategories();
   }, []);
+
+  useEffect(() => {
+    console.log("transaction: ", transaction);
+  }, [transaction]);
 
   const createExpense = async () => {
     client
@@ -221,13 +247,13 @@ const AddTransaction = ({ navigation }) => {
                   size="sm"
                   h="3/4"
                 >
-                  {wallets.map((wallet, id) => {
+                  {wallets.map((wallet) => {
                     {
                       return (
                         <Select.Item
-                          label={wallet.namewallet}
-                          value={wallet.idwallet}
-                          key={id}
+                          label={wallet.name}
+                          value={wallet.id}
+                          key={wallet.id}
                         />
                       );
                     }

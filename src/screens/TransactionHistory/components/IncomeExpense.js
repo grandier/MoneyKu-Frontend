@@ -1,11 +1,12 @@
-import react, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, View, Text } from "native-base";
 import { LinearGradient } from "expo-linear-gradient";
 
-const IncomeExpense = ({ walletData }) => {
+const IncomeExpense = ({ walletData, income, expense }) => {
   useEffect(() => {
     console.log(walletData);
   }, []);
+
   return (
     <View style={{ flexDirection: "row", justifyContent: "center" }}>
       <LinearGradient
@@ -28,7 +29,7 @@ const IncomeExpense = ({ walletData }) => {
           Spending
         </Text>
         <Text style={{ fontWeight: "bold", fontSize: 15, color: "#fff" }}>
-          Rp {walletData[2].expense}
+          Rp {expense}
         </Text>
       </LinearGradient>
       <LinearGradient
@@ -51,7 +52,7 @@ const IncomeExpense = ({ walletData }) => {
           Income
         </Text>
         <Text style={{ fontWeight: "bold", fontSize: 15, color: "#fff" }}>
-          Rp {walletData[0].balancewallet}
+          Rp {income}
         </Text>
       </LinearGradient>
     </View>
