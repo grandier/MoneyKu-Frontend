@@ -69,7 +69,6 @@ const Wallet = ({ navigation }) => {
         idUser: await AsyncStorage.getItem("id"),
       })
       .then(function (response) {
-        console.log(response.status);
         if (response.status == "200") {
           // navigation.navigate("Signin");
           setOpenAddWallet(false);
@@ -78,7 +77,6 @@ const Wallet = ({ navigation }) => {
       })
       .catch(function (error) {
         console.error(error);
-        console.log("masuk catch");
       });
   };
   const unsubscribe = navigation.addListener("didFocus", () => {
@@ -95,27 +93,20 @@ const Wallet = ({ navigation }) => {
         },
       })
       .then(async function (response) {
-        console.log("response get wallet: ", response.data);
         if (response.data.length !== 0) {
           await AsyncStorage.setItem("wallet", JSON.stringify(response.data));
 
           setWalletFetchData(JSON.parse(await AsyncStorage.getItem("wallet")));
           setNoWallet(false);
         } else if (response.data.length === 0) {
-          console.log("yah enol");
           setNoWallet(true);
         }
         // console.log(walletsFetchData);
       })
       .catch(function (error) {
         console.error(error);
-        console.log("masuk catch get wallet");
       });
   }
-
-  useEffect(() => {
-    console.log("noWallet: ", noWallet);
-  }, []);
 
   useFocusEffect(
     React.useCallback(() => {

@@ -3,10 +3,6 @@ import { Box, View, Text } from "native-base";
 import { LinearGradient } from "expo-linear-gradient";
 
 const IncomeExpense = ({ walletData, income, expense }) => {
-  useEffect(() => {
-    console.log(walletData);
-  }, []);
-
   return (
     <View style={{ flexDirection: "row", justifyContent: "center" }}>
       <LinearGradient

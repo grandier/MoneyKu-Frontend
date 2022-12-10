@@ -85,7 +85,6 @@ const AddTransaction = ({ navigation }) => {
         },
       })
       .then(async function (response) {
-        console.log("response get wallet: ", response.data);
         if (response.data.length !== 0) {
           await AsyncStorage.setItem("wallet", JSON.stringify(response.data));
 
@@ -97,7 +96,6 @@ const AddTransaction = ({ navigation }) => {
       })
       .catch(function (error) {
         console.error(error);
-        console.log("masuk catch get wallet");
       });
   }
 
@@ -115,10 +113,6 @@ const AddTransaction = ({ navigation }) => {
     getWallets().catch(console.error);
     getCategories();
   }, []);
-
-  useEffect(() => {
-    console.log("transaction: ", transaction);
-  }, [transaction]);
 
   const createExpense = async () => {
     client

@@ -73,7 +73,6 @@ const TotalBalance = ({ userBalance, navigation }) => {
       })
       .catch(function (error) {
         console.error(error);
-        console.log("masuk catch getWallet");
       });
   }
   // useEffect(() => {

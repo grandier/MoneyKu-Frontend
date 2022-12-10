@@ -70,12 +70,7 @@ const FilterForm = ({ navigation }) => {
         },
       })
       .then(async function (response) {
-        console.log(
-          "response get income by wallet: ",
-          response.data.queryResult[0].sum
-        );
         setIncome(response.data.queryResult[0].sum);
-        // console.log(walletsFetchData);
       })
       .catch(function (error) {
         console.error(error);
@@ -119,7 +114,6 @@ const FilterForm = ({ navigation }) => {
       })
       .then(function (response) {
         setFilteredTransaction(Object.values(response.data)[0]);
-        console.log(response.data);
       })
       .catch(function (error) {
         console.error(error);
@@ -136,7 +130,6 @@ const FilterForm = ({ navigation }) => {
         },
       })
       .then(async function (response) {
-        console.log("response get wallet: ", response.data);
         if (response.data.length !== 0) {
           await AsyncStorage.setItem("wallet", JSON.stringify(response.data));
 
@@ -148,7 +141,6 @@ const FilterForm = ({ navigation }) => {
       })
       .catch(function (error) {
         console.error(error);
-        console.log("masuk catch get wallet");
       });
   }
 
@@ -156,10 +148,6 @@ const FilterForm = ({ navigation }) => {
     getWallet();
     setShowFilter(true);
   }, []);
-
-  useEffect(() => {
-    console.log(filterData);
-  }, [filterData]);
 
   async function handleConfirmStart(date) {
     console.log("A start date has been picked: ", date);
@@ -300,7 +288,6 @@ const FilterForm = ({ navigation }) => {
                       style={{ width: 200 }}
                       size="md"
                       onPress={() => {
-                        // console.log(filterData);
                         setShowFilter(!showFilter);
                         getFilteredTransaction();
                         getTotalIncomeByWallet();
@@ -361,7 +348,6 @@ const FilterForm = ({ navigation }) => {
                   <Button
                     style={{ width: 150, alignSelf: "flex-end" }}
                     onPress={() => {
-                      console.log("Click");
                       setShowFilter(!showFilter);
                     }}
                   >

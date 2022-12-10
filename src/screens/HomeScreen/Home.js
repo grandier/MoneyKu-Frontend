@@ -60,7 +60,6 @@ export default function Home({ navigation }) {
       })
       .catch(function (error) {
         console.error(error);
-        console.log("masuk catch");
       });
   }
 
@@ -74,7 +73,6 @@ export default function Home({ navigation }) {
         },
       })
       .then(async function (response) {
-        console.log("total income: ", response.data.queryResult[0].sum);
         setTotalIncome(parseInt(response.data.queryResult[0].sum));
       })
       .catch(function (error) {
@@ -92,7 +90,6 @@ export default function Home({ navigation }) {
         },
       })
       .then(async function (response) {
-        console.log("total expense: ", response.data.queryResult[0].sum);
         setTotalExpense(parseInt(response.data.queryResult[0].sum));
       })
       .catch(function (error) {

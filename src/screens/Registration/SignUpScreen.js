@@ -32,7 +32,6 @@ const SignUpScreen = ({ navigation }) => {
         password: signUpData.password,
       })
       .then(function (response) {
-        console.log(response.status);
         if (response.data.message == "User Created") {
           navigation.navigate("Signin");
         } else {
@@ -43,7 +42,6 @@ const SignUpScreen = ({ navigation }) => {
       })
       .catch(function (error) {
         console.error(error);
-        console.log("masuk catch");
       });
   };
 
