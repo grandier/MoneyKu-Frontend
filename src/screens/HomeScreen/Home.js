@@ -38,7 +38,6 @@ export default function Home({ navigation }) {
 
   async function getName() {
     const id = await AsyncStorage.getItem("id");
-    console.log(id);
 
     client
       .get("/getAccountDetail", {
@@ -47,14 +46,10 @@ export default function Home({ navigation }) {
         },
       })
       .then(async function (response) {
-        // console.log(response.status);
-        // console.log(response.data.name);
-        // console.log(response.data.balance);
         await AsyncStorage.setItem(
           "wallet",
           JSON.stringify(response.data.wallet)
         );
-        // console.log(await AsyncStorage.getItem("wallet"));
         setName(response.data.name);
         setTotalBalance(response.data.balance);
       })
@@ -174,7 +169,7 @@ export default function Home({ navigation }) {
                 justifyContent: "center",
               }}
             >
-              <Text style={{ fontSize: 12, color: "#fff", fontWeight: "900" }}>
+              <Text style={{ fontSize: 12, color: "#fff", fontWeight: "500" }}>
                 Total Expense
               </Text>
               <Text style={{ fontWeight: "bold", fontSize: 14, color: "#fff" }}>
@@ -198,7 +193,7 @@ export default function Home({ navigation }) {
                 justifyContent: "center",
               }}
             >
-              <Text style={{ fontSize: 12, color: "#fff", fontWeight: "900" }}>
+              <Text style={{ fontSize: 12, color: "#fff", fontWeight: "500" }}>
                 Total Income
               </Text>
               <Text style={{ fontWeight: "bold", fontSize: 14, color: "#fff" }}>

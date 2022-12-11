@@ -30,34 +30,11 @@ const AppBar = () => {
             console.log("hamburger pressed");
           }}
         />
-        <Image style={styles.image} alt="profile-pic" />
-        {/* <HStack>
-            <IconButton
-              icon={
-                <Icon
-                  as={MaterialIcons}
-                  name="favorite"
-                  size="sm"
-                  color="white"
-                />
-              }
-            />
-            <IconButton
-              icon={
-                <Icon as={MaterialIcons} name="search" size="sm" color="white" />
-              }
-            />
-            <IconButton
-              icon={
-                <Icon
-                  as={MaterialIcons}
-                  name="more-vert"
-                  size="sm"
-                  color="white"
-                />
-              }
-            />
-          </HStack> */}
+        <Image
+          style={styles.image}
+          alt="profile-pic"
+          src="https://xsgames.co/randomusers/avatar.php?g=female"
+        />
       </HStack>
     </NativeBaseProvider>
   );

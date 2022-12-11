@@ -47,38 +47,31 @@ const TotalBalance = ({ userBalance, navigation }) => {
       })
       .then(async function (response) {
         let responseData = response.data.queryResult;
+        if (responseData !== undefined) {
+          let amounts = responseData.map((obj) => obj.amount);
+          let dates = responseData.map((obj) => obj.transactiondate);
 
-        let amounts = responseData.map((obj) => obj.amount);
-        let dates = responseData.map((obj) => obj.transactiondate);
+          let formattedDates = dates.map((date) => {
+            let splitDate = date.split("-");
+            return `${splitDate[1]}-${splitDate[2].substring(0, 2)}`;
+          });
 
-        let formattedDates = dates.map((date) => {
-          let splitDate = date.split("-");
-          return `${splitDate[1]}-${splitDate[2].substring(0, 2)}`;
-        });
-
-        let amountKFormatted = amounts.map((x) => x / 1000);
-
-        setRecentTranscation({
-          labels: formattedDates.reverse(),
-          datasets: [
-            {
-              data: amountKFormatted.reverse(),
-            },
-          ],
-        });
-
-        // console.log("recent transcations: ", recentTransaction);
-        // setRecentTransactionData(response.data);
-        // console.log(Object.values(recentTransactionData));
+          let amountKFormatted = amounts.map((x) => x / 1000);
+          setRecentTranscation({
+            labels: formattedDates.reverse(),
+            datasets: [
+              {
+                data: amountKFormatted.reverse(),
+              },
+            ],
+          });
+        }
       })
       .catch(function (error) {
         console.error(error);
       });
   }
-  // useEffect(() => {
-  //   getRecentTransaction();
-  //   // console.log("Recent transaction: ", recentTransaction);
-  // }, []);
+
   const unsubscribe = navigation.addListener("didFocus", () => {
     console.log("focussed");
   });
@@ -190,7 +183,7 @@ const TotalBalance = ({ userBalance, navigation }) => {
                 <LineChart
                   data={recentTransaction}
                   width={Dimensions.get("window").width * 0.8}
-                  height={250}
+                  height={270}
                   yAxisLabel={"Rp"}
                   yAxisSuffix="k"
                   yAxisInterval={1} // optional, defaults to 1

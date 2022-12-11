@@ -70,7 +70,9 @@ const FilterForm = ({ navigation }) => {
         },
       })
       .then(async function (response) {
-        setIncome(response.data.queryResult[0].sum);
+        if (response.data.queryResult[0].sum !== null) {
+          setIncome(response.data.queryResult[0].sum);
+        }
       })
       .catch(function (error) {
         console.error(error);
@@ -92,7 +94,9 @@ const FilterForm = ({ navigation }) => {
           "response get expense by wallet: ",
           response.data.queryResult[0].sum
         );
-        setExpense(response.data.queryResult[0].sum);
+        if (response.data.queryResult[0].sum !== null) {
+          setExpense(response.data.queryResult[0].sum);
+        }
         // console.log(walletsFetchData);
       })
       .catch(function (error) {

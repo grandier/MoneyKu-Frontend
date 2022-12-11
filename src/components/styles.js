@@ -7,6 +7,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     marginRight: 5,
+    marginTop: 10,
     borderColor: "white",
     alignItems: "flex-end",
   },

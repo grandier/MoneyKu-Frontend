@@ -19,8 +19,8 @@ import {
 
 const SignInScreen = ({ navigation }) => {
   const [signInData, setSignInData] = useState({
-    email: "aidan",
-    password: "aidan",
+    email: "",
+    password: "",
   });
 
   const signIn = async () => {

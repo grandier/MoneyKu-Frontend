@@ -47,20 +47,6 @@ const Wallet = ({ navigation }) => {
     setPlacement(placement);
   };
 
-  const myListEmpty = () => {
-    return (
-      <View
-        style={{
-          alignItems: "center",
-          justifyContent: "center",
-          marginTop: 150,
-        }}
-      >
-        <Text style={styles.item}>No data found</Text>
-      </View>
-    );
-  };
-
   const addWallet = async () => {
     await client
       .post("/createWallet", {
@@ -79,6 +65,7 @@ const Wallet = ({ navigation }) => {
         console.error(error);
       });
   };
+
   const unsubscribe = navigation.addListener("didFocus", () => {
     console.log("focussed");
   });
@@ -101,7 +88,6 @@ const Wallet = ({ navigation }) => {
         } else if (response.data.length === 0) {
           setNoWallet(true);
         }
-        // console.log(walletsFetchData);
       })
       .catch(function (error) {
         console.error(error);
@@ -110,7 +96,9 @@ const Wallet = ({ navigation }) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      udpateWalletLocalStorage();
+      setTimeout(() => {
+        udpateWalletLocalStorage();
+      }, 1000);
       return () => unsubscribe();
     }, [])
   );
